@@ -1,16 +1,6 @@
 ---
 name: modern-seo
-description: 'Comprehensive, primary-source SEO and agentic-web guidance grounded in Google''s official AI optimization guide and Chrome''s agentic-browsing documentation. Use this skill whenever the user asks about SEO strategy that spans traditional Search and generative AI features (AI Overviews, AI Mode), wonders whether "AEO" or "GEO" is a real separate discipline, asks whether to invest in tactics like llms.txt, content chunking, or rewriting for LLMs, wants to understand how AI search retrieves and surfaces content (RAG, query fan-out), needs a unified mental model that ties together indexability, content quality, structured data, business listings, and agentic experiences, asks how to make a site usable by AI agents (WebMCP, the Lighthouse agentic-browsing category, the Universal Commerce Protocol), or asks generally how to optimize a site for "Google plus AI." Also use when the user says things like "should I optimize differently for AI," "is AEO real," "modern SEO," "what changed about SEO," "Google AI optimization guide," "AI Overviews ranking," "agent-ready website," "WebMCP," "agentic checkout," or "is llms.txt worth it." This is the comprehensive lens; for narrower tasks defer to: technical audits -> seo-audit, AI citation tactics for specific LLMs -> ai-seo, JSON-LD implementation -> schema, page generation at scale -> programmatic-seo, IA/URL planning -> site-architecture.'
-metadata:
-  version: 2.0.0
-  sources:
-    - https://developers.google.com/search/docs/fundamentals/ai-optimization-guide
-    - https://developer.chrome.com/docs/lighthouse/agentic-browsing/scoring
-    - https://developer.chrome.com/docs/lighthouse/agentic-browsing/llms-txt
-    - https://developer.chrome.com/docs/ai/webmcp
-    - https://web.dev/articles/ai-agent-site-ux
-    - https://ucp.dev/latest/
-  last_reviewed: 2026-05
+description: 'Primary-source SEO and agentic-web guidance grounded in Google''s AI optimization guide and Chrome''s agentic-browsing docs. Use when the user asks about SEO strategy spanning traditional Search and generative AI features (AI Overviews, AI Mode), wonders whether "AEO" or "GEO" is a separate discipline, asks whether tactics like llms.txt, content chunking, or rewriting for LLMs are worth it, wants to understand how AI search retrieves content (RAG, query fan-out), needs a unified model tying together indexability, content quality, structured data, business listings, and agentic experiences, or asks how to make a site usable by AI agents (WebMCP, the Lighthouse agentic-browsing category, the Universal Commerce Protocol (UCP)). Also triggers on "should I optimize differently for AI," "is AEO real," "modern SEO," "AI Overviews ranking," "agent-ready website," "WebMCP," "agentic checkout," or "is llms.txt worth it." For narrower tasks defer to: seo-audit, ai-seo, schema, programmatic-seo, site-architecture.'
 ---
 
 # Modern SEO
@@ -156,3 +146,17 @@ If a question genuinely spans multiple domains, use this skill to frame the stra
 - [references/mythbusting.md](references/mythbusting.md) — llms.txt (and its real Surface-B role), chunking, AI-rewriting, inauthentic mentions, and why they don't help ranking
 - [references/agentic-experiences.md](references/agentic-experiences.md) — browser agents, the accessibility tree, Lighthouse agentic-browsing scoring, agent-readiness audit
 - [references/agentic-web-standards.md](references/agentic-web-standards.md) — WebMCP (declarative + imperative APIs), the Universal Commerce Protocol (UCP), AP2 mandates, what to adopt now vs. watch
+
+## Sources and versioning
+
+- **Skill version**: 2.0.0
+- **Last reviewed**: 2026-05
+
+Grounded in these primary sources (verify against the live docs, which change):
+
+- Google — AI optimization guide: https://developers.google.com/search/docs/fundamentals/ai-optimization-guide
+- Chrome — Lighthouse agentic browsing (scoring): https://developer.chrome.com/docs/lighthouse/agentic-browsing/scoring
+- Chrome — Lighthouse agentic browsing (llms.txt): https://developer.chrome.com/docs/lighthouse/agentic-browsing/llms-txt
+- Chrome — WebMCP: https://developer.chrome.com/docs/ai/webmcp
+- web.dev — Agent-friendly website UX: https://web.dev/articles/ai-agent-site-ux
+- Universal Commerce Protocol (UCP): https://ucp.dev/latest/
