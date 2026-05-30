@@ -28,6 +28,8 @@ If you sell physical products, get a Merchant Center feed set up before optimizi
 - `Product` JSON-LD on the page agrees with feed data (don't lie in either).
 - Real photos, not just the manufacturer's hero shot.
 
+**If you use AI to generate feed content:** AI-generated product data and images carry labeling requirements. Images need IPTC `DigitalSourceType` metadata set to `TrainedAlgorithmicMedia`, and AI-generated titles/descriptions must be labeled as AI-generated. See [structured-data.md](structured-data.md#labeling-ai-generated-content-in-structured-data) for the details.
+
 ## Google Business Profile (local / service businesses)
 
 For any business with a physical location or a defined service area, Business Profile is the most underrated lever.
@@ -53,6 +55,24 @@ For any business with a physical location or a defined service area, Business Pr
 Google has introduced or is rolling out conversational "Business Agent" experiences where customers can chat with a business directly from Search. Availability and feature set vary by region and category. If your category supports it, configure the agent to handle common questions (hours, availability, quote requests) — it acts as a high-intent intercept right inside Google.
 
 This is moving fast; check the Business Profile help center for current capabilities in your category and region.
+
+These conversational surfaces are one face of a broader shift: agents increasingly transacting on behalf of users, not just answering questions. See [agentic-experiences.md](agentic-experiences.md) for how that plays out beyond Search.
+
+## Agentic checkout and the Universal Commerce Protocol (UCP)
+
+UCP is an open standard co-developed by Google and Shopify that powers agentic checkout in Google Search's AI Mode and the Gemini app (current spec roughly 2026-04). It lets AI agents discover products, negotiate, check out, and pay without a bespoke per-merchant integration.
+
+The concrete hooks, without over-detailing:
+
+- **Discovery** via a `/.well-known/ucp` profile.
+- **Reverse-domain capability names** like `dev.ucp.shopping.checkout`.
+- **Payment handlers** (e.g. `com.google.pay`, `dev.shopify.shop_pay`) sitting under a decoupled "Trust Triangle" so the platform never touches raw card numbers.
+- **AP2 mandates** (`dev.ucp.shopping.ap2_mandate`) — cryptographically signed proof that a user authorized an autonomous-agent purchase.
+- **A `continue_url` fallback** to normal web checkout.
+
+**Practical stance: watch, don't build.** For most merchants this is not something to hand-roll against a still-changing spec. If you're on a platform like Shopify, UCP support will most likely arrive through the platform. The durable action today is to keep a clean, agent-operable normal web checkout — that's the `continue_url` fallback every agent flow falls back to anyway. See [agentic-experiences.md](agentic-experiences.md) and [agentic-web-standards.md](agentic-web-standards.md).
+
+This is emerging, not a current ranking or visibility requirement. Treat it as something to track, not a deadline.
 
 ## Reviews
 

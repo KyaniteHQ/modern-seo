@@ -1,6 +1,6 @@
 # AI Search Mechanics: RAG and Query Fan-out
 
-You don't optimize for these mechanics directly. You understand them so you can ignore bad advice and focus on the work that actually moves visibility.
+This is **Surface A** (see the two-surface model in [SKILL.md](../SKILL.md)): how Google's generative features *find and surface* your content. It is the ranking/retrieval surface, not the agent-usability surface. You don't optimize for these mechanics directly. You understand them so you can ignore bad advice and focus on the work that actually moves visibility.
 
 ## Retrieval-Augmented Generation (RAG)
 

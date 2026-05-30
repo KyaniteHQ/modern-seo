@@ -6,6 +6,8 @@ Google's AI optimization guide states explicitly: **structured data is not a req
 - It reduces ambiguity about what a page represents.
 - It can feed Google Knowledge Graph signals for entities (organization, products, people).
 
+Google's wording is exact: structured data "isn't required for generative AI search, and there's no special schema.org markup you need to add. However, it's a good idea to continue using it as part of your overall SEO strategy, as it helps with being eligible for rich results."
+
 Don't sell it to the user as "the AI Overviews unlock." Treat it as ordinary SEO hygiene with rich-result upside.
 
 ## Use JSON-LD
@@ -41,6 +43,8 @@ Pick by content type. Don't add schemas for content types that don't match.
 | `HowTo` | Step-by-step instructional content | Steps must match the visible content |
 | `VideoObject` | Pages with embedded original video | thumbnailUrl, uploadDate, duration |
 
+The table above is a working subset. Google documents a broad gallery of around 26 rich-result types in its [search gallery](https://developers.google.com/search/docs/appearance/structured-data/search-gallery) — Article, Breadcrumb, Carousel, Course, Dataset, Discussion forum, Event, FAQ, Image metadata, Job posting, Local business, Math solver, Movie, Organization, Product, Profile page, Q&A, Recipe, Review snippet, Software app, Speakable, Subscription/paywalled content, Vacation rental, Video, and more. Pick the documented type that genuinely matches your content. Don't fabricate "AI" schema types — there is no such thing, and inventing one does nothing.
+
 ## Common mistakes
 
 - **Markup that doesn't match the visible page.** Adding `FAQPage` schema without an actual visible FAQ violates Google's structured data guidelines and can trigger manual actions. The markup must reflect content the user sees.
@@ -49,6 +53,15 @@ Pick by content type. Don't add schemas for content types that don't match.
 - **Multiple conflicting `Organization` blocks** across templates. Define once, sitewide.
 - **`BreadcrumbList` that disagrees with the URL structure.** The schema should match the actual page hierarchy.
 - **Forgetting `inLanguage`** for non-English sites. Set it to the page's actual language (e.g., `"tr-TR"` for Turkish content).
+
+## Labeling AI-generated content in structured data
+
+If you use AI to generate product imagery or copy, labeling it is a compliance requirement, not optional decoration. Google's guidance on using generative AI content (updated 2025-12-10) sets concrete expectations for ecommerce:
+
+- **AI-generated images** must include IPTC `DigitalSourceType` metadata with the value `TrainedAlgorithmicMedia`.
+- **AI-generated product data** (title, description, attributes) "must be specified separately and labeled as AI-generated" — this is relevant for Merchant Center feeds, not just on-page markup.
+
+The takeaway: the labeling is the requirement. Skipping it on AI-generated feed data or imagery is a policy problem, not a missed optimization.
 
 ## Validation
 

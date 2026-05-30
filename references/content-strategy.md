@@ -30,9 +30,30 @@ Even teams that "don't have unique content" almost always do — they just haven
 - **Customer-specific stories** — anonymized but concrete (a 40ft container of glass from Izmir to Hamburg, what went into the quote, how the route was chosen).
 - **Photos of your actual operation** — trucks, warehouses, packing teams, signed paperwork. Stock imagery is commodity by definition.
 
+## E-E-A-T: trust is the core
+
+Google evaluates content quality through **E-E-A-T**: Experience, Expertise, Authoritativeness, Trustworthiness ("Creating helpful, people-first content", updated 2025-12-10). The hierarchy matters:
+
+> Of these aspects, trust is most important. The others contribute to trust, but content doesn't necessarily have to demonstrate all of them.
+
+E-E-A-T isn't a dial you turn directly: "While E-E-A-T itself isn't a specific ranking factor, using a mix of factors that can identify content with good E-E-A-T is useful." Google's own self-assessment framing is **Who, How, and Why**:
+
+- **Who** made it — add bylines and author information "where readers might expect it." Anonymous content on topics that need expertise reads as less trustworthy.
+- **How** it was made — disclose automation or AI generation where that disclosure would help readers understand the content.
+- **Why** it exists — "'Why' is perhaps the most important question." Content should be made "primarily to help people," not primarily to manipulate search rankings. This is the people-first test.
+
+**YMYL** topics ("Your Money or Your Life" — health, finance, safety, legal, major life decisions) carry extra E-E-A-T weight, because low-quality content there can cause real harm.
+
+Two myths worth killing:
+
+- **There is no preferred word count.** In Google's words: "Are you writing to a particular word count because you've heard or read that Google has a preferred word count? (No, we don't.)" Write to the length the topic needs.
+- **Date-churning doesn't create freshness.** Changing the published date or making cosmetic edits to seem "fresh" doesn't help. Update content when there's a real reason to.
+
+Note on quality raters: their judgments don't feed ranking directly. "Rater data is not used directly in our ranking algorithms" — raters measure whether algorithm changes are working, they don't score your individual pages.
+
 ## Human-centric organization
 
-Google's guide is explicit: write for humans first. The structural moves that help humans also help AI systems extract meaning:
+Google's guide is explicit: write for humans first — "focus on human readability; don't worry about perfect code." The structural moves that help humans also help AI systems extract meaning:
 
 - **Front-load the answer.** The first paragraph should state what the page is about and what conclusion the reader can expect. Don't bury the lede.
 - **Clear, descriptive headings.** A reader skimming H2s should understand the shape of the article. Avoid clever titles for primary sections.
@@ -64,6 +85,21 @@ The healthier approach:
 - **Let semantic understanding do the matching.** Google understands that "lorry transport Germany," "TIR Almanya," and "road freight to Germany" mean similar things. You do not need three pages.
 
 A useful heuristic: only spin up a new page if it has a substantively different answer, not just a different keyword.
+
+## Using AI to generate content (the rules)
+
+AI-generated content is **not banned**. Google's position ("using-gen-ai-content" + spam policies, updated 2025-12-10 / 2026-05-15) is that AI content must meet the same Search Essentials and spam policies as anything else. The line is value, not authorship:
+
+> Using generative AI tools or other similar tools to generate many pages without adding value for users may violate Google's spam policy on scaled content abuse.
+
+So the failure mode isn't "used AI" — it's mass-producing thin pages. Disclosure is encouraged where readers would expect it (see the **How** question under E-E-A-T).
+
+Ecommerce carries concrete labeling requirements that are easy to miss:
+
+- **AI-generated images** must carry IPTC `DigitalSourceType` metadata set to `TrainedAlgorithmicMedia`.
+- **AI-generated product data** (title, description) "must be specified separately and labeled as AI-generated."
+
+The takeaway: use AI as a tool behind genuinely helpful, people-first content — drafting, summarizing, restructuring real expertise — never to mass-produce thin pages at scale.
 
 ## Editing pass: catch commodity drift
 
