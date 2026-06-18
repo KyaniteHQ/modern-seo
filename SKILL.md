@@ -161,8 +161,10 @@ If a question genuinely spans multiple domains, use this skill to frame the stra
 
 ## Sources and versioning
 
-- **Skill version**: 2.1.1
+- **Skill version**: 2.1.2
 - **Last reviewed**: 2026-06
+
+**What changed in 2.1.2** (surfaced by a test-driven audit loop, each verified against primary sources): added form-field affordances (`autocomplete` tokens = WCAG 2.1 SC 1.3.5 + autofill; `type`/`inputmode`/`required`) to the Surface-B agent-readiness patterns; sitemap note that Google ignores `<priority>`/`<changefreq>` and uses an honest `<lastmod>`; `BreadcrumbList` fragment-URL caveat; `LocalBusiness`-requires-`address`-for-rich-results correction; machine-readable files must be discoverable.
 
 **What changed in 2.1.1** (packaging only, no content change): added `"skills": ["./"]` to `.claude-plugin/plugin.json` so the plugin's root `SKILL.md` is exposed to the Claude Code plugin loader on all client versions (root-`SKILL.md` auto-discovery otherwise requires Claude Code v2.1.142+).
 

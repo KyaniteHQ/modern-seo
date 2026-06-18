@@ -59,7 +59,8 @@ The table above is a working subset. Google documents a broad gallery of around 
 - **`AggregateRating` without real reviews.** Inventing star ratings is a quick way to lose rich-result eligibility.
 - **Fake `Review` snippets** for services or businesses with no genuine review surface.
 - **Multiple conflicting `Organization` blocks** across templates. Define once, sitewide.
-- **`BreadcrumbList` that disagrees with the URL structure.** The schema should match the actual page hierarchy.
+- **`BreadcrumbList` that disagrees with the URL structure.** The schema should match the actual page hierarchy. Each non-final item's `item` must be a real page URL — Google defines it as *"the URL to the webpage that represents the breadcrumb"* — so use the canonical page path, not a fragment anchor like `/#section`. (Google doesn't document the fragment-URL failure mode, so treat "the rich result drops" as practitioner caution, not a stated rule.)
+- **`LocalBusiness` without a `PostalAddress`, expecting a rich result.** Google lists `address` as a **required** property for `LocalBusiness` (and subtypes like `MovingCompany`) rich-result eligibility, and `areaServed` is a schema.org `Organization` property Google doesn't treat as a supported `LocalBusiness` field. A service-area business with no public address won't earn the local rich result from `LocalBusiness` markup — supply a registered/mailing address, or use `Organization` + `areaServed` instead.
 - **Forgetting `inLanguage`** for non-English sites. Set it to the page's actual language (e.g., `"tr-TR"` for Turkish content).
 
 ## Labeling AI-generated content in structured data
