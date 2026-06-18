@@ -161,8 +161,10 @@ If a question genuinely spans multiple domains, use this skill to frame the stra
 
 ## Sources and versioning
 
-- **Skill version**: 2.1.2
+- **Skill version**: 2.1.3
 - **Last reviewed**: 2026-06
+
+**What changed in 2.1.3** (test-driven loop, primary-source verified): corrected ACP merchant-readiness for Stripe — eligibility is via Stripe's **Agentic Commerce Suite** (catalog feed → Dashboard config → Stripe-hosted ACP endpoint → Shared Payment Tokens), *not* "Payment Links / predefined Price objects" (a common misconception); plus apply-to-OpenAI for ChatGPT Instant Checkout (Shopify/Etsy pre-approved) and ACP being PSP-agnostic. (A candidate to deep-document `Offer`/`AggregateOffer` properties was dropped as out-of-altitude — that JSON-LD detail belongs to the `schema` skill.)
 
 **What changed in 2.1.2** (surfaced by a test-driven audit loop, each verified against primary sources): added form-field affordances (`autocomplete` tokens = WCAG 2.1 SC 1.3.5 + autofill; `type`/`inputmode`/`required`) to the Surface-B agent-readiness patterns; sitemap note that Google ignores `<priority>`/`<changefreq>` and uses an honest `<lastmod>`; `BreadcrumbList` fragment-URL caveat; `LocalBusiness`-requires-`address`-for-rich-results correction; machine-readable files must be discoverable.
 
