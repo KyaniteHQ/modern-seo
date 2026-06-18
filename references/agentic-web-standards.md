@@ -115,6 +115,8 @@ ACP is a full-stack agentic-commerce protocol co-created by **Stripe and OpenAI*
 
 ACP and UCP address overlapping ground (agentic discovery + checkout) from different ecosystem entry points (OpenAI/Stripe vs. Google/Shopify). They are architecturally comparable but not interchangeable; expect eventual convergence pressure as the ecosystem matures.
 
+**Merchant readiness (Stripe).** A Stripe merchant becomes ACP-eligible through Stripe's **Agentic Commerce Suite** — upload a product-catalog feed (the `ProductCatalogImport` API or a Dashboard CSV), configure agents and policies in the Dashboard, and Stripe hosts the ACP-compliant checkout endpoint; payments settle through Checkout Sessions with **Shared Payment Tokens** (charged via PaymentIntents). It is **not** "Payment Links / predefined Price objects" — those are unrelated primitives, a common misconception. ACP itself is PSP-agnostic — you can implement the open spec and use Stripe only for the payment layer. To appear specifically in **ChatGPT Instant Checkout**, a merchant applies to OpenAI; **Shopify and Etsy merchants are pre-approved** via platform agreements.
+
 **Practical stance:** watch, don't hand-roll. If you're already on Shopify or Stripe, coverage arrives via the platform. If you're building a custom commerce stack, monitor both specs before committing to either.
 
 ## Agentic Resource Discovery (ARD)
