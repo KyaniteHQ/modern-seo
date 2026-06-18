@@ -40,9 +40,55 @@ For context, the crawlers that *do* feed Search and its surfaces include **Googl
 
 **Practical takeaway**: deciding whether to block `Google-Extended` is a content-licensing / policy choice, not an SEO choice. It's orthogonal to ranking. Don't block it expecting an SEO effect, and don't avoid blocking it out of SEO fear.
 
+### Crawler taxonomy across all AI engines
+
+Beyond Google, several AI products run their own crawlers. Blocking decisions are correctly framed as **indexation prerequisites** for each engine — not as a separate AI-optimization discipline.
+
+**Tier 1 — Training-only crawlers.** Blocking has no effect on search or AI-citation visibility. Blocking is a content-licensing / policy choice.
+
+| Crawler | Operator | Notes |
+|---|---|---|
+| GPTBot | OpenAI | Training only. Independent from OAI-SearchBot — see Tier 2. |
+| Google-Extended | Google | Gemini training/grounding (see above). |
+| ClaudeBot / anthropic-ai | Anthropic | Training. |
+| CCBot | Common Crawl | Training datasets used by many model providers. |
+| Applebot-Extended | Apple | Foundation-model training. |
+| Bytespider | ByteDance | Training. |
+
+**Tier 2 — Search-index crawlers.** Blocking removes you from that engine's answer surface.
+
+| Crawler | Engine / Surface | Key fact |
+|---|---|---|
+| Googlebot | Google Search, AI Overviews, AI Mode (Surface A) | Blocking is a hard prerequisite failure — Google cannot index or surface you. |
+| OAI-SearchBot | ChatGPT search | OpenAI: sites opted out "will not be shown in ChatGPT search answers, though can still appear as navigational links"; "we recommend allowing OAI-SearchBot." (platform.openai.com/docs/bots) |
+| PerplexityBot | Perplexity (own proprietary index, not Bing) | Perplexity docs: "we recommend allowing PerplexityBot." Blocking prevents indexing and citation eligibility. |
+| Bingbot | Bing → Microsoft Copilot | Copilot is Bing-based (learn.microsoft.com). Bing is also a supporting — not controlling — source for ChatGPT search; the architecture is actively evolving. |
+
+**GPTBot and OAI-SearchBot are independent settings** (platform.openai.com/docs/bots): "a webmaster can allow OAI-SearchBot in order to appear in search results while disallowing GPTBot to indicate that crawled content should not be used for training." Allowing OAI-SearchBot while blocking GPTBot lets content appear in ChatGPT search without consenting to training use.
+
+**Tier 3 — User-triggered fetchers.** Robots.txt applies loosely because the fetch is user-initiated.
+
+| Crawler | Context |
+|---|---|
+| ChatGPT-User | User-initiated browsing actions in ChatGPT. OpenAI: "Because these actions are initiated by a user, robots.txt rules may not apply." |
+| Perplexity-User | User-initiated fetches in Perplexity. |
+
+**Caveats:**
+- A CDN or WAF (e.g., Cloudflare Bot Management) can block crawlers regardless of `robots.txt` settings — check your WAF allowlist if a search crawler is not seeing your content.
+- Cloudflare (2025-08-04) reported Perplexity using stealth / rotating-user-agent crawlers that bypass robots.txt — so `robots.txt` alone is not a guarantee of opt-out for Perplexity.
+
+### Non-Google indexing infrastructure
+
+Two Bing-ecosystem tools matter for Copilot and (indirectly) ChatGPT visibility. Neither has any effect on Google (Surface A):
+
+- **Bing Webmaster Tools** (bing.com/webmasters): the Bing-ecosystem analogue to Google Search Console. Submit sitemaps, inspect indexing, and monitor Bing performance. Relevant because Microsoft Copilot is Bing-based, and Bing indexation is a supporting source for ChatGPT search.
+- **IndexNow** (indexnow.org): a real-time URL-submission protocol supported by Microsoft Bing, Naver, Seznam.cz, Yandex, and Yep. Submit a URL on publish and participating engines know to re-crawl immediately. Relevant for Bing/Copilot freshness and indirectly for ChatGPT (via Bing's contribution) — not a Google enhancement.
+
+These are standard indexing hygiene steps for non-Google engines, not AI-specific optimizations.
+
 ## JavaScript SEO
 
-Googlebot can render JavaScript, but JS adds a second processing pass that can delay indexing and reveals more failure modes. Treat JS SEO with extra care:
+Googlebot renders JavaScript using an evergreen headless Chromium — Google's own documentation is explicit: "using JavaScript to load content is not 'making it harder for Google Search'" (JS SEO basics, updated 2026-03-04). The practical concern is timing and failure modes, not whether Googlebot executes JS. JS adds a **second processing pass** with a separate queue, so JS-dependent content typically indexes later than server-rendered content and has more ways to break. Treat JS SEO with extra care for those reasons.
 
 **The crawl → render → index pipeline** (JS SEO basics, updated 2026-03-04). Google processes JS pages in three phases, each with a **separate queue**: Crawling → Rendering → Indexing. Rendering runs in an evergreen headless Chromium. A page can sit in the rendering queue after it's crawled, which is why JS-dependent content often indexes later than server-rendered content.
 

@@ -50,7 +50,7 @@ These are the same patterns that win accessibility audits, plus a few agent-spec
 
 ## How agent-readiness is measured: Chrome Lighthouse "agentic browsing"
 
-Chrome ships an **experimental** Lighthouse category for this. Two things to set expectations:
+Chrome ships a Lighthouse **"Agentic Browsing" category** for this. It moved from experimental into Lighthouse's **default config in Lighthouse 13.3.0** (~2026-05-07; primary: github.com/GoogleChrome/lighthouse/releases/tag/v13.3.0); PageSpeed Insights inherited it shortly after (~mid-to-late May 2026). Two things to set expectations:
 
 - **It is not a 0–100 score.** Per Chrome: *"the standards for the agentic web are still emerging, the current focus is to gather data and provide actionable signals rather than a definitive ranking."* You get a **pass-ratio** (how many readiness checks pass), pass/fail statuses, and informational counts.
 - **Audits are deterministic but results can vary**, because dynamic JS tool registration timing, accessibility-tree size/complexity, and layout shift (CLS) all affect what the snapshot captures.
@@ -69,7 +69,7 @@ The checks fall into three groups:
 
 **C. Stability and discoverability**
 - *Cumulative Layout Shift (CLS)* — visual stability, critical for coordinate/screenshot-based interaction. (No agent-specific numeric threshold is published; it defers to the general CLS docs.)
-- *llms.txt* — checks for a machine-readable summary at the domain root. **N/A if absent** (optional), flagged only on a server error.
+- *llms.txt* — checks for a machine-readable summary at the domain root. A missing file (404) returns **Not Applicable** — absence is not a failure and carries no penalty. A 5xx server error on the path is the only failure condition (primary: developer.chrome.com/docs/lighthouse/agentic-browsing/llms-txt).
 
 Chrome's three explicit "how to score well" recommendations: **adopt WebMCP** for your key flows, keep a **sound accessibility tree** (semantic HTML + proper ARIA), and **optimize for stability** (reduce layout shift).
 
@@ -88,7 +88,7 @@ If steps 2–5 pass, the page is in good shape for current-generation agents.
 
 ## A note on llms.txt here (not in ranking)
 
-`llms.txt` belongs to this surface, not to ranking. It's an optional Markdown summary at your domain root that helps agents grasp your site's structure without crawling everything. Lighthouse treats it as optional (N/A when absent). It does **nothing** for Google Search or AI Overviews — see [mythbusting.md](mythbusting.md) Myth 1. Publish it only if your goal is agent navigability, and keep it honest and current.
+`llms.txt` belongs to this surface, not to ranking. It's an optional Markdown summary at your domain root that helps agents grasp your site's structure without crawling everything. Lighthouse treats it as optional (N/A when absent). It does **nothing** for Google Search or AI Overviews — see [mythbusting.md](mythbusting.md) Myth 1. Where it does matter: some AI agent dev-tools (Cursor, Windsurf) consume it by design, using it to orient to a codebase or site before acting — irrelevant to Google ranking, potentially useful for agent consumers. Publish it only if your goal is agent navigability, and keep it honest and current.
 
 ## Relationship to accessibility
 

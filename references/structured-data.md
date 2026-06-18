@@ -10,6 +10,8 @@ Google's wording is exact: structured data "isn't required for generative AI sea
 
 Don't sell it to the user as "the AI Overviews unlock." Treat it as ordinary SEO hygiene with rich-result upside.
 
+A 2026-05-11 Ahrefs difference-in-differences study (~1,885 pages already cited in AI answers) found that adding JSON-LD produced **no positive AI-citation uplift** on any platform; the AI Overviews arm trended slightly negative. This is a single-vendor, directional study, but it consistently supports Google's stated position. Structured data's real value remains rich-result eligibility and entity disambiguation — not AI-citation frequency.
+
 ## Use JSON-LD
 
 Use JSON-LD in a `<script type="application/ld+json">` block, ideally in the `<head>`. JSON-LD is easier to maintain than microdata or RDFa and is what Google recommends.
@@ -39,9 +41,15 @@ Pick by content type. Don't add schemas for content types that don't match.
 | `Article` / `BlogPosting` | Editorial content | Headline, datePublished, dateModified, author, image |
 | `Product` | Product detail pages | Price, availability, aggregateRating (only if you genuinely collect reviews) |
 | `Service` | Service detail pages | Useful for service businesses (logistics, consulting, agencies) |
-| `FAQPage` | Pages with a real FAQ section visible to users | Don't fabricate Q&As just for markup |
-| `HowTo` | Step-by-step instructional content | Steps must match the visible content |
+| `FAQPage` | Pages with a real FAQ section visible to users | Rich results deprecated 2026-05-07 (gov/health-only since 2023-09-14); markup harmless but yields no rich result |
+| `HowTo` | Step-by-step instructional content | Rich results deprecated 2023-09-14; markup harmless but yields no rich result |
 | `VideoObject` | Pages with embedded original video | thumbnailUrl, uploadDate, duration |
+
+### Schema deprecation tracker
+
+- **FAQPage**: Rich results removed 2026-05-07 (Search Console reports/test removed June 2026, API support removed August 2026). FAQ rich results had already been restricted to authoritative government and health sites since 2023-09-14; 2026-05-07 is the final complete removal — it was never universal. Markup remains valid schema.org and is harmless to keep, but do not implement it expecting a SERP rich result. ([developers.google.com/search/docs/appearance/structured-data/faqpage](https://developers.google.com/search/docs/appearance/structured-data/faqpage))
+- **HowTo**: Rich results removed 2023-09-14. Markup remains valid schema.org and harmless to keep. The structured-data doc now redirects to the changelog.
+- **QAPage**: Still supported and the recommended alternative for Q&A and forum content; gained new supported properties 2026-03-24. Pair with Discussion Forum markup for threaded forum pages.
 
 The table above is a working subset. Google documents a broad gallery of around 26 rich-result types in its [search gallery](https://developers.google.com/search/docs/appearance/structured-data/search-gallery) — Article, Breadcrumb, Carousel, Course, Dataset, Discussion forum, Event, FAQ, Image metadata, Job posting, Local business, Math solver, Movie, Organization, Product, Profile page, Q&A, Recipe, Review snippet, Software app, Speakable, Subscription/paywalled content, Vacation rental, Video, and more. Pick the documented type that genuinely matches your content. Don't fabricate "AI" schema types — there is no such thing, and inventing one does nothing.
 
