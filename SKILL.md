@@ -161,8 +161,10 @@ If a question genuinely spans multiple domains, use this skill to frame the stra
 
 ## Sources and versioning
 
-- **Skill version**: 2.1.0
+- **Skill version**: 2.1.1
 - **Last reviewed**: 2026-06
+
+**What changed in 2.1.1** (packaging only, no content change): added `"skills": ["./"]` to `.claude-plugin/plugin.json` so the plugin's root `SKILL.md` is exposed to the Claude Code plugin loader on all client versions (root-`SKILL.md` auto-discovery otherwise requires Claude Code v2.1.142+).
 
 **What changed in 2.1.0** (all re-verified against official first-party docs): three-tier AI-crawler taxonomy (`OAI-SearchBot` vs `GPTBot`, `PerplexityBot`, `Bingbot`); non-Google engine prerequisites and AI-visibility measurement (GSC Generative AI reports, "ghost citations"); `FAQPage`/`HowTo` rich-result deprecation; WebMCP `document.modelContext` (Chrome 150) + origin-trial/ship versions; Lighthouse agentic-browsing now in default config; agentic-commerce landscape expanded (UCP + ACP, AP2→FIDO) plus ARD, RSL, and the MCP stateless RC; freshness as a quality signal; academic backing (C-SEO Bench, peer-reviewed; SAGEO Arena, preprint) for the anti-GEO-hype stance.
 
