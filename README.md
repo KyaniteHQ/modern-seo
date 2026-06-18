@@ -17,7 +17,35 @@ It helps with: unified SEO guidance for Search and AI search, mythbusting (`llms
 
 ## Install
 
-### Claude Code — via the marketplace (recommended)
+### Any agent — one command (recommended)
+
+Because this repo is a standard skill (a `SKILL.md` at the root), the open
+[`skills`](https://github.com/vercel-labs/skills) CLI installs it into whatever
+agents you have:
+
+```bash
+npx skills add KyaniteHQ/modern-seo
+```
+
+It auto-detects installed agents — Claude Code, Cursor, Codex, OpenCode, Gemini
+CLI, GitHub Copilot, Windsurf, and [70+ others](https://github.com/vercel-labs/skills#supported-agents) — and copies the
+whole skill folder (`SKILL.md` + `references/`). Requires Node ≥ 18.
+
+```bash
+npx skills add KyaniteHQ/modern-seo -g            # global (all projects), not just this one
+npx skills add KyaniteHQ/modern-seo -a claude-code # install to a specific agent only
+npx skills update modern-seo                        # update later
+npx skills remove modern-seo                         # uninstall
+```
+
+Equivalent cross-agent installers work too (same root-`SKILL.md` convention):
+
+```bash
+npx openskills install KyaniteHQ/modern-seo   # numman-ali/openskills (Node ≥ 20.6)
+npx skillkit add KyaniteHQ/modern-seo         # rohitg00/skillkit (translates to 46 agents)
+```
+
+### Claude Code — via the marketplace
 
 ```
 /plugin marketplace add KyaniteHQ/agent-skills
@@ -67,6 +95,7 @@ Drop the folder into whatever directory your agent scans for skills. The skill i
 
 ## Updating
 
+- **`npx skills` installs**: `npx skills update modern-seo` (or `npx openskills update` / `npx skillkit update` for those tools).
 - **Marketplace installs**: `/plugin marketplace update` in Claude Code pulls the latest released version.
 - **Manual clones**: `git pull` inside the cloned directory.
 

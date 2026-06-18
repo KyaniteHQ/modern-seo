@@ -6,12 +6,13 @@ A whole genre of advice has emerged around "AEO" and "GEO" claiming there's a se
 
 ## Myth 1: "You need to publish an `llms.txt` file to rank in AI search"
 
-**Reality (Surface A — ranking):** Google does **not** consume `llms.txt` for AI Overviews or AI Mode. Direct quote from the AI optimization guide: *"You don't need to create new machine readable files, AI text files, markup, or Markdown to appear in generative AI search."* And from its next-steps: ignore *"creating unnecessary AI text files (like llms.txt)."* Publishing one will not help you rank or get cited in Google's AI features.
+**Reality (Surface A — ranking):** Google does **not** consume `llms.txt` for AI Overviews or AI Mode. A 2026-06-15 note in the AI optimization guide is unambiguous: *"You don't need to create new machine readable files, AI text files, markup, or Markdown to appear in Google Search (including its generative AI capabilities), as Google Search itself doesn't use them."* And: *"Doing so won't harm (nor help) your visibility or rankings in Google Search, as Google Search ignores them."* The guide's next-steps list also explicitly tells you to ignore *"creating unnecessary AI text files (like llms.txt)."* Publishing one will not help you rank or get cited in Google's AI features.
 
 **The nuance (Surface B — agents):** `llms.txt` is **not worthless everywhere.** Chrome's Lighthouse "agentic browsing" category checks for an `llms.txt` at the domain root as an *optional* discoverability hint for AI agents navigating your site: *"Without this file, agents may spend more time crawling the site to understand its high-level structure and primary content."* It's marked **N/A if absent** (not a failure) and is explicitly optional. So:
 
 - If the user's goal is **ranking / AI Overviews**: llms.txt does nothing. Don't publish it for that reason.
 - If the user's goal is **being efficiently navigable by third-party AI agents**: a small, honest `llms.txt` is a low-cost, optional nicety. It still won't make you rank.
+- If the user's product targets **AI developer tools** (e.g. Cursor, Windsurf): those tools DO consume `llms.txt` by design at inference time to scope their context window. In that narrow context it carries genuine value — but this is a product-integration decision, not a search signal.
 
 **What to do instead (for ranking):** healthy sitemap, robots.txt that allows Googlebot, indexable content, genuinely useful pages. The decade-old checklist.
 
@@ -37,9 +38,9 @@ A whole genre of advice has emerged around "AEO" and "GEO" claiming there's a se
 
 ## Myth 5: "Seed mentions in blogs and forums for AI visibility"
 
-**Reality:** AI Overviews and AI Mode use Google's ranking systems, which include spam-blocking. *"Seeking inauthentic 'mentions' across the web isn't as helpful as it might seem."* Note Google now explicitly lists *"attempting to manipulate generative AI responses in Google Search"* as spam.
+**Reality:** AI Overviews and AI Mode use Google's ranking systems, which include spam-blocking. *"Seeking inauthentic 'mentions' across the web isn't as helpful as it might seem."* Google's 2026-05-15 spam-policy update explicitly names *"attempting to manipulate generative AI responses in Google Search"* — so the practice isn't just ineffective, it's a documented policy violation.
 
-**What to do instead:** earn mentions through genuinely useful content, original research, tools, or real community participation. The signal Google trusts is editorial.
+**What to do instead:** earned editorial mentions are legitimate, high-value authority work under E-E-A-T's authoritativeness dimension — they must be earned, not planted. Specific high-value actions: publishing original content and tools that third parties naturally cite; maintaining an accurate Wikipedia/Wikidata entry if your organization genuinely qualifies (these feed the Knowledge Graph directly); building a real YouTube presence. These are correlated with AI-feature citation, but correlation is not causation — no guaranteed citation count or lift ratio exists, and no tool can reliably promise one.
 
 ## Myth 6: "Submit to LLM-specific directories / citation lists"
 
@@ -65,9 +66,24 @@ A whole genre of advice has emerged around "AEO" and "GEO" claiming there's a se
 
 **What to do instead:** use AI as a tool to produce genuinely helpful, people-first content with real expertise behind it; disclose automation where readers would expect it; never mass-produce thin pages.
 
+## Myth 10: "AEO/GEO is a separate discipline — I need a special 'GEO score' to track it"
+
+**Reality:** Google's own AI optimization guide states that optimizing for AI search is still SEO — the same technical health, content quality, and earned-authority signals that power classical ranking power AI-feature surfacing. "AEO" and "GEO" are marketing labels, not distinct disciplines with separate ranking systems.
+
+The proprietary 0–100 "GEO scores" sold by some tools use invented, uncalibrated weights with no published methodology and no relationship to any Google signal. There is no Google-defined GEO score. And the underlying content-rewrite tactics those scores optimize for don't hold up when tested — see the peer-reviewed evidence (C-SEO Bench) in the pattern summary at the end of this file.
+
+**What to do instead:**
+
+- **Surface A (ranking / AI Overviews / AI Mode):** SEO excellence — the five fundamentals in the closing section below.
+- **Surface B (agent usability):** agent-readiness as described in [agentic-experiences.md](agentic-experiences.md).
+
+For measurement, use the Search Console Generative AI performance report (launched 2026-06-03) as your primary data source. Vendor AI-visibility tools are an emerging category with no standardized methodology — treat their scores as directional at best.
+
 ## The pattern behind the myths
 
 All these myths share a structure: a quick, mechanical, content-light intervention sold as a shortcut around the slow work of building a credible, useful, well-engineered site. Advice that promises AI visibility without addressing content quality, technical health, or business listings is almost certainly snake oil.
+
+This framing now has peer-reviewed support. C-SEO Bench (Puerto et al., arXiv:2506.11097, accepted NeurIPS 2025 Datasets & Benchmarks Track) evaluated conversational-SEO content rewrites across AI-search platforms and found them "largely ineffective" and "frequently having a negative impact on ranking," while "traditional SEO strategies are significantly more effective." A Feb 2026 preprint, SAGEO Arena (Kim et al., arXiv:2602.12187), reaches the same conclusion: GEO-style methods "remain largely impractical under realistic conditions and often degrade retrieval and reranking." C-SEO Bench is peer-reviewed; SAGEO Arena is a preprint, not yet confirmed at a venue.
 
 The real list of things that move **ranking / AI-feature visibility** (Surface A):
 

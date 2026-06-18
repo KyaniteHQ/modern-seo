@@ -44,12 +44,28 @@ E-E-A-T isn't a dial you turn directly: "While E-E-A-T itself isn't a specific r
 
 **YMYL** topics ("Your Money or Your Life" — health, finance, safety, legal, major life decisions) carry extra E-E-A-T weight, because low-quality content there can cause real harm.
 
+Earned third-party authority — editorial mentions in relevant publications, accurate Wikipedia and Wikidata entries, a genuine YouTube presence — is legitimate authoritativeness work; for the earned-vs-seeded distinction see [mythbusting.md](mythbusting.md) Myths 5 and 7.
+
 Two myths worth killing:
 
 - **There is no preferred word count.** In Google's words: "Are you writing to a particular word count because you've heard or read that Google has a preferred word count? (No, we don't.)" Write to the length the topic needs.
 - **Date-churning doesn't create freshness.** Changing the published date or making cosmetic edits to seem "fresh" doesn't help. Update content when there's a real reason to.
 
 Note on quality raters: their judgments don't feed ranking directly. "Rater data is not used directly in our ranking algorithms" — raters measure whether algorithm changes are working, they don't score your individual pages.
+
+## Freshness as a quality signal
+
+The date-churning myth above covers the failure mode. The legitimate counterpart is **genuine content maintenance**: updating a page when the underlying facts change — prices, regulations, statistics, software versions, product availability. When the information on a page becomes inaccurate, correcting it serves users and is a real quality signal.
+
+Google's RAG documentation explicitly aims to improve "the quality, accuracy, and **freshness**" of AI responses (AI optimization guide, developers.google.com/search/docs/fundamentals/ai-optimization-guide, 2026-05-15). Recency carries additional weight on AI search surfaces beyond Google: Perplexity, which runs its own proprietary index, particularly weights fresh content for real-time queries.
+
+Express freshness honestly:
+
+- Use `Article` or `BlogPosting` schema with a genuine `dateModified` value — set it to the date of a substantive update, not a cosmetic one.
+- Keep the visible published and updated dates consistent with the schema markup.
+- Do not roll `dateModified` forward without a corresponding change to the content.
+
+There is no correct update cadence. 30/60/90-day schedules are vendor-sourced assertions with no basis in Google's published documentation. The governing principle: **update when accuracy changes, not on a schedule.**
 
 ## Human-centric organization
 

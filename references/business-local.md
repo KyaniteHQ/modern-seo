@@ -46,9 +46,11 @@ For any business with a physical location or a defined service area, Business Pr
 - A few well-written posts per month (offers, updates, events).
 - Active review collection and response.
 
-**Why this matters for AI search:** Local-intent queries (e.g., "moving company near me," "freight forwarder in Izmir") often surface AI responses that pull directly from Business Profile data. A complete, recently-updated profile with photos and reviews dramatically improves these surfaces.
+**Why this matters for AI search:** Local-intent queries (e.g., "moving company near me," "freight forwarder in Izmir") often surface AI responses that pull directly from Business Profile data. A complete, recently-updated profile with photos and reviews materially improves these surfaces.
 
 **Multi-location businesses:** create one profile per real physical location, not per service or per keyword. Use bulk verification if you have more than ten.
+
+**Surface A — Preferred Sources (2026-05-27):** Google's Preferred Sources feature, which lets users mark sites as sources they want to see in AI Overviews and AI Mode, was extended to cover both surfaces on 2026-05-27 (and to all languages on 2026-04-30). A business can encourage its audience to mark it as a preferred source — a legitimate publisher-discovery path, not a ranking signal or a hack. It doesn't change how Google's systems rank your content; it shifts which sources a specific user's AI features prefer to surface.
 
 ## Business Agent (emerging)
 
@@ -58,17 +60,19 @@ This is moving fast; check the Business Profile help center for current capabili
 
 These conversational surfaces are one face of a broader shift: agents increasingly transacting on behalf of users, not just answering questions. See [agentic-experiences.md](agentic-experiences.md) for how that plays out beyond Search.
 
-## Agentic checkout and the Universal Commerce Protocol (UCP)
+## Agentic checkout: UCP and ACP
 
-UCP is an open standard co-developed by Google and Shopify that powers agentic checkout in Google Search's AI Mode and the Gemini app (current spec roughly 2026-04). It lets AI agents discover products, negotiate, check out, and pay without a bespoke per-merchant integration.
+UCP (Universal Commerce Protocol) is an open standard launched 2026-01-11, co-developed by Google and Shopify, with Etsy, Wayfair, Target, and Walmart as additional launch contributors. It powers agentic checkout in Google Search's AI Mode and the Gemini app — Google's AI optimization guide (developers.google.com/search/docs/fundamentals/ai-optimization-guide) now names it as the standard for agentic commerce. The v2026-04-08 spec added Universal Cart, a Catalog capability, and Identity Linking. It lets AI agents discover products, negotiate, check out, and pay without a bespoke per-merchant integration.
 
 The concrete hooks, without over-detailing:
 
 - **Discovery** via a `/.well-known/ucp` profile.
 - **Reverse-domain capability names** like `dev.ucp.shopping.checkout`.
 - **Payment handlers** (e.g. `com.google.pay`, `dev.shopify.shop_pay`) sitting under a decoupled "Trust Triangle" so the platform never touches raw card numbers.
-- **AP2 mandates** (`dev.ucp.shopping.ap2_mandate`) — cryptographically signed proof that a user authorized an autonomous-agent purchase.
+- **AP2 mandates** (`dev.ucp.shopping.ap2_mandate`) — the checkout-and-payment mandate/authorization security layer (Checkout Mandate + Payment Mandate) that plugs into UCP as an extension, not a competing protocol. AP2 was donated by Google to the FIDO Alliance (2026-04-28) and is now multi-stakeholder (FIDO Payments TWG chaired by Mastercard & Visa). v0.2 added "Human Not Present" autonomous payment flows.
 - **A `continue_url` fallback** to normal web checkout.
+
+**ACP (Agentic Commerce Protocol)** is a sibling full-stack agentic-commerce protocol co-created by Stripe and OpenAI, launched 2025-09-29. OpenAI's native "Instant Checkout" surface was deprecated and repositioned — transactional integration now happens via ChatGPT apps; ACP also powers product-discovery feeds. Shopify and Stripe merchants get platform coverage without hand-rolling the protocol. UCP and ACP are parallel efforts at the protocol level; the practical stance for both is the same: let platforms absorb the integration.
 
 **Practical stance: watch, don't build.** For most merchants this is not something to hand-roll against a still-changing spec. If you're on a platform like Shopify, UCP support will most likely arrive through the platform. The durable action today is to keep a clean, agent-operable normal web checkout — that's the `continue_url` fallback every agent flow falls back to anyway. See [agentic-experiences.md](agentic-experiences.md) and [agentic-web-standards.md](agentic-web-standards.md).
 
