@@ -1,7 +1,7 @@
 {
   "name": "modern-seo",
   "description": "Primary-source SEO and agentic-web guidance grounded in Google's AI optimization guide and Chrome's agentic-browsing docs. Covers the two-surface model: ranking in Google Search/AI features (plus non-Google engines like ChatGPT and Perplexity), and being usable by AI agents (WebMCP, Lighthouse agentic-browsing, UCP/ACP).",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "skills": ["./"],
   "author": {
     "name": "KyaniteHQ"

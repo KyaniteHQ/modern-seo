@@ -26,6 +26,7 @@ These are the same patterns that win accessibility audits, plus a few agent-spec
 - **Real semantic elements.** `<button>` for buttons, `<a href>` for navigation, `<form>` with `<input>`/`<label>` pairs, `<select>`, `<textarea>`. Not `<div onclick>`. If you must use a non-semantic element, give it the right `role` and `tabindex` (e.g. `<div role="button" tabindex="0">`).
 - **`cursor: pointer`** on clickable things. web.dev calls it *"a strong signal for actionability."*
 - **Accessible labels.** Every interactive element has a name assistive tech can read: visible text, `aria-label`, or a wrapped/`for`-linked `<label>`. No mystery icon buttons. Use `<label for="…">` to bind labels to inputs so the agent understands each field's purpose.
+- **Form-field affordances beyond the label.** Give each input the right `type` (`type="email"`, `type="tel"`), an `autocomplete` token (`autocomplete="name"`/`"email"`/`"tel"`/`"organization"`), `inputmode`, and `required` where appropriate. The `autocomplete` token satisfies **WCAG 2.1 SC 1.3.5 (Identify Input Purpose)** and drives browser/password-manager autofill. No primary source ties AI agents to `autocomplete` specifically — the agent's field-purpose signal is the `<label for>` binding above — so do both: `<label for>` for agents, `autocomplete`/`type` for autofill and WCAG compliance.
 - **Landmark structure.** `<header>`, `<nav>`, `<main>`, `<aside>`, `<footer>` so agents and screen readers jump to the right region.
 - **Heading hierarchy.** A real outline: one `<h1>`, then `<h2>`/`<h3>`. Don't skip levels for styling.
 - **Stable form names.** `<input name="email">`, not `<input id="x_237a8b">`. Auto-generated IDs that change every build break agents that look up fields by name.
@@ -81,14 +82,14 @@ For any flow you care about (contact form, quote request, checkout, account crea
 2. In DevTools' Accessibility tab, inspect each interactive element — does each have a non-empty accessible name and a sensible role?
 3. Disable the mouse and complete the flow with keyboard only (Tab, Shift+Tab, Enter, Space). If you can't, an agent probably can't.
 4. Refresh mid-flow. Does the URL preserve enough state to resume?
-5. Submit the form. Does the success/error message appear as DOM content?
+5. Submit the form. Does the success/error message appear as DOM content? Does each field have a `<label for>`, the correct `type`, and an `autocomplete` token (WCAG 1.3.5 + autofill)?
 6. (Optional, forward-looking) Run the Lighthouse agentic-browsing category and review the pass-ratio and any schema-validity failures.
 
 If steps 2–5 pass, the page is in good shape for current-generation agents.
 
 ## A note on llms.txt here (not in ranking)
 
-`llms.txt` belongs to this surface, not to ranking. It's an optional Markdown summary at your domain root that helps agents grasp your site's structure without crawling everything. Lighthouse treats it as optional (N/A when absent). It does **nothing** for Google Search or AI Overviews — see [mythbusting.md](mythbusting.md) Myth 1. Where it does matter: some AI agent dev-tools (Cursor, Windsurf) consume it by design, using it to orient to a codebase or site before acting — irrelevant to Google ranking, potentially useful for agent consumers. Publish it only if your goal is agent navigability, and keep it honest and current.
+`llms.txt` belongs to this surface, not to ranking. It's an optional Markdown summary at your domain root that helps agents grasp your site's structure without crawling everything. Lighthouse treats it as optional (N/A when absent). It does **nothing** for Google Search or AI Overviews — see [mythbusting.md](mythbusting.md) Myth 1. Where it does matter: some AI agent dev-tools (Cursor, Windsurf) consume it by design, using it to orient to a codebase or site before acting — irrelevant to Google ranking, potentially useful for agent consumers. Publish it only if your goal is agent navigability, and keep it honest and current. Either way, machine-readable files (an `llms.txt`, a `/pricing.md`) only help if they're **discoverable** — linked from the site or listed where an agent will look; an unlinked file at the domain root is rarely fetched.
 
 ## Relationship to accessibility
 

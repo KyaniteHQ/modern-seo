@@ -24,7 +24,7 @@ Quick checks: Google Search Console's URL Inspection tool, `curl -A "Googlebot" 
 ## Crawlability
 
 - **`robots.txt`**: serve at `/robots.txt`, return 200, allow Googlebot to fetch CSS and JS (blocking these is a classic mistake — Google needs them to render the page).
-- **XML sitemap**: list canonical URLs only, include `lastmod`, reference it from `robots.txt`, and submit in GSC.
+- **XML sitemap**: list canonical URLs only, reference it from `robots.txt`, and submit in GSC. Maintain an honest `lastmod` — Google's docs say it *"uses the `<lastmod>` value if it's consistently and verifiably... accurate"* and **ignores `<priority>` and `<changefreq>` entirely**, so don't bother populating those two.
 - **Internal linking**: every important page should be reachable within a few clicks from the homepage. Orphan pages get crawled rarely.
 - **Crawl budget** (large sites only): consolidate duplicates with canonicals, use `noindex` on thin/utility pages, return proper HTTP codes (301 for moves, 410 for deleted, never 200 for a "not found" page).
 - **Removing a page from results**: use `noindex` and keep the page **crawlable** so Google can see the directive. Blocking via `robots.txt` won't reliably remove a URL from results — Google can still index a blocked URL (without its content) if it's linked elsewhere, and it never sees the `noindex` because it can't fetch the page.
