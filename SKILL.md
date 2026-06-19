@@ -131,6 +131,7 @@ This is a **knowledge reference** skill, not a prescribed audit workflow. When i
 - **When the user runs ecommerce or local**: surface Merchant Center / Business Profile early — often higher ROI than on-page work.
 - **When the user wants ChatGPT / Perplexity visibility**: it's the same content work; the lever is letting their crawlers in — allow `OAI-SearchBot` (ChatGPT) and `PerplexityBot` (Perplexity), and don't conflate that with Bing. Resist per-engine content rewrites.
 - **When the user asks how to track AI visibility**: point to GSC's Generative AI reports and the third-party tool category, and warn that vendor lift numbers are directional, not targets.
+- **When the user brings a third-party "AI search / GEO playbook" or checklist** (these usually end in a tool pitch): treat it as a genre to *contextualize*, not a gap analysis to absorb — most of it is the same tactics you'd already recommend, minus the rigor. Run it through (1) the **two-surface model** (these playbooks almost never separate Surface A from Surface B, which is where the confusion lives), then (2) a **failure-mode scan** — does any item push thin per-intent pages (scaled-content abuse), blocked crawlers that don't do what the user thinks (`GPTBot` ≠ `OAI-SearchBot`), seeded "mentions" (now named spam), generation-stage rewriting (refuted by C-SEO Bench / SAGEO), or a proprietary "GEO score" (Myth 10)? Acknowledge the genuine overlap, then add the precision the checklist lacks.
 
 Read the reference file that matches the specific question. Don't dump every principle on every conversation.
 
@@ -161,8 +162,10 @@ If a question genuinely spans multiple domains, use this skill to frame the stra
 
 ## Sources and versioning
 
-- **Skill version**: 2.1.3
+- **Skill version**: 2.1.4
 - **Last reviewed**: 2026-06
+
+**What changed in 2.1.4**: added a conversational-handling note for when a user brings a third-party "AI search / GEO playbook" or checklist — run it through the two-surface model + a failure-mode scan rather than absorbing it. (This came from grading one such vendor playbook against the skill: all 10 pillars graded "already-covered-and-sharper," so the only on-thesis improvement was sharpening how the skill *handles* that genre, not adding its tactics.)
 
 **What changed in 2.1.3** (test-driven loop, primary-source verified): corrected ACP merchant-readiness for Stripe — eligibility is via Stripe's **Agentic Commerce Suite** (catalog feed → Dashboard config → Stripe-hosted ACP endpoint → Shared Payment Tokens), *not* "Payment Links / predefined Price objects" (a common misconception); plus apply-to-OpenAI for ChatGPT Instant Checkout (Shopify/Etsy pre-approved) and ACP being PSP-agnostic. (A candidate to deep-document `Offer`/`AggregateOffer` properties was dropped as out-of-altitude — that JSON-LD detail belongs to the `schema` skill.)
 
