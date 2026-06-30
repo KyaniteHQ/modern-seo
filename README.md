@@ -116,7 +116,6 @@ git -C ~/.claude/skills/modern-seo pull
 
 - [`SKILL.md`](./SKILL.md) — the skill definition and operating guidance (the two-surface model + core principles)
 - [`references/`](./references) — supporting reference notes (technical foundations, content strategy, AI-search mechanics, structured data, business/local, mythbusting, agentic experiences, agentic web standards)
-- [`evals/evals.json`](./evals/evals.json) — evaluation prompts and expected outputs
 - [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json) — Claude plugin manifest (canonical version)
 
 ## Versioning
@@ -127,7 +126,7 @@ To cut a release: bump `version` in `plugin.json`, update the "Sources and versi
 
 ## Development
 
-Edit the skill in [`SKILL.md`](./SKILL.md), update supporting docs in [`references/`](./references), and extend test cases in [`evals/evals.json`](./evals/evals.json). Keep the frontmatter to `name` + `description` (description under ~1024 characters) for maximum cross-agent portability.
+Edit the skill in [`SKILL.md`](./SKILL.md) and update supporting docs in [`references/`](./references). This repo does not maintain a bundled eval suite; review changes through manual invocation on real SEO or agentic-web tasks. Keep the frontmatter to `name` + `description` (description under ~1024 characters) for maximum cross-agent portability.
 
 ## Source basis
 

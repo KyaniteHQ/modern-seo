@@ -132,6 +132,7 @@ This is a **knowledge reference** skill, not a prescribed audit workflow. When i
 - **When the user wants ChatGPT / Perplexity visibility**: it's the same content work; the lever is letting their crawlers in — allow `OAI-SearchBot` (ChatGPT) and `PerplexityBot` (Perplexity), and don't conflate that with Bing. Resist per-engine content rewrites.
 - **When the user asks how to track AI visibility**: point to GSC's Generative AI reports and the third-party tool category, and warn that vendor lift numbers are directional, not targets.
 - **When the user brings a third-party "AI search / GEO playbook" or checklist** (these usually end in a tool pitch): treat it as a genre to *contextualize*, not a gap analysis to absorb — most of it is the same tactics you'd already recommend, minus the rigor. Run it through (1) the **two-surface model** (these playbooks almost never separate Surface A from Surface B, which is where the confusion lives), then (2) a **failure-mode scan** — does any item push thin per-intent pages (scaled-content abuse), blocked crawlers that don't do what the user thinks (`GPTBot` ≠ `OAI-SearchBot`), seeded "mentions" (now named spam), generation-stage rewriting (refuted by C-SEO Bench / SAGEO), or a proprietary "GEO score" (Myth 10)? Acknowledge the genuine overlap, then add the precision the checklist lacks.
+- **When the user asks for a full site or repo audit using this skill**: report by surface and severity instead of turning every absence into a finding. Treat indexability, robots, sitemap, canonical/hreflang, structured data validity, Core Web Vitals, and non-commodity content as Surface-A proof points or blockers. Treat WebMCP on key non-destructive forms, accessibility-tree clarity, layout stability, and optional `llms.txt` as Surface-B opportunities. Explicitly mark non-actions: missing `llms.txt` is not an SEO blocker; `FAQPage`/`HowTo` markup can be harmless semantic residue now that their rich results are retired; Search Console OAuth or credential failures are observability/tooling blockers, not evidence that the live site is unhealthy.
 
 Read the reference file that matches the specific question. Don't dump every principle on every conversation.
 
@@ -162,8 +163,10 @@ If a question genuinely spans multiple domains, use this skill to frame the stra
 
 ## Sources and versioning
 
-- **Skill version**: 2.1.4
+- **Skill version**: 2.1.5
 - **Last reviewed**: 2026-06
+
+**What changed in 2.1.5** (observed during a full Astro recipe-site audit): added audit-report triage so Surface-A blockers, Surface-B opportunities, and non-actions do not get mixed together; in particular, don't overstate missing `llms.txt`, retired `FAQPage`/`HowTo` rich results, or Search Console credential failures as live SEO defects.
 
 **What changed in 2.1.4**: added a conversational-handling note for when a user brings a third-party "AI search / GEO playbook" or checklist — run it through the two-surface model + a failure-mode scan rather than absorbing it. (This came from grading one such vendor playbook against the skill: all 10 pillars graded "already-covered-and-sharper," so the only on-thesis improvement was sharpening how the skill *handles* that genre, not adding its tactics.)
 

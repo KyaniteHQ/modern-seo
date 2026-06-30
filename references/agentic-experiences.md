@@ -38,6 +38,7 @@ These are the same patterns that win accessibility audits, plus a few agent-spec
 - **Predictable URLs.** Don't bury content behind modal dialogs with no URL. "Go to the contact page" implies a `/contact` route exists.
 - **No critical content behind hover-only interactions.** Agents won't reliably trigger hover menus/tooltips.
 - **No CAPTCHA-by-default on common flows.** Reasonable bot defense is fine; CAPTCHAs gating the homepage or product pages block legitimate agents too.
+- **Progressive tool exposure.** Add WebMCP annotations first to helpful, non-destructive flows such as search, signup, contact, booking, or quote requests. Do not expose destructive or irreversible flows (delete account, cancel order, erase data) as agent tools unless the page also has explicit confirmation, visible review, and guardrails.
 
 ## Anti-patterns that break agents
 
@@ -76,7 +77,7 @@ Chrome's three explicit "how to score well" recommendations: **adopt WebMCP** fo
 
 ## Quick agent-readiness audit
 
-For any flow you care about (contact form, quote request, checkout, account creation):
+For any non-destructive flow you care about (contact form, quote request, checkout, account creation):
 
 1. Open the page, let it fully render.
 2. In DevTools' Accessibility tab, inspect each interactive element — does each have a non-empty accessible name and a sensible role?
