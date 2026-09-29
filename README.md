@@ -1,3 +1,8 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/banner-dark.png">
+  <img alt="modern-seo by KyaniteLabs. SEO for Google Search and AI agents, from primary sources." src=".github/banner-light.png">
+</picture>
+
 # modern-seo
 
 A portable [Agent Skill](https://code.claude.com/docs/en/skills) for modern SEO and agentic-web strategy, grounded in primary-source guidance from Google and Chrome.
