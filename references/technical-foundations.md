@@ -24,14 +24,17 @@ Quick checks: Google Search Console's URL Inspection tool, `curl -A "Googlebot" 
 ## Crawlability
 
 - **`robots.txt`**: serve at `/robots.txt`, return 200, allow Googlebot to fetch CSS and JS (blocking these is a classic mistake — Google needs them to render the page).
-- **XML sitemap**: list canonical URLs only, reference it from `robots.txt`, and submit in GSC. Maintain an honest `lastmod` — Google's docs say it *"uses the `<lastmod>` value if it's consistently and verifiably... accurate"* and **ignores `<priority>` and `<changefreq>` entirely**, so don't bother populating those two.
+- **XML sitemap**: list canonical URLs only, reference it from `robots.txt`, and submit in GSC. Maintain an honest `lastmod` — Google's docs say it *"uses the `<lastmod>` value if it's consistently and verifiably... accurate"* and **ignores `<priority>` and `<changefreq>` entirely**, so don't bother populating those two. Multiple `Sitemap:` lines are fine: "there's no limit to the number of sitemaps you can include in your robots.txt file" (build-sitemap, updated 2026-07-08).
 - **Internal linking**: every important page should be reachable within a few clicks from the homepage. Orphan pages get crawled rarely.
-- **Crawl budget** (large sites only): consolidate duplicates with canonicals, use `noindex` on thin/utility pages, return proper HTTP codes (301 for moves, 410 for deleted, never 200 for a "not found" page).
+- **Crawl budget** (large sites only; Google's rough guide is 1M+ pages changing weekly or 10k+ changing daily): consolidate duplicates with canonicals, block low-value URL variants (sort orders, infinite-scroll duplicates) in `robots.txt`, and return proper HTTP codes (301 for moves, 404 or 410 for removed pages, never 200 for a "not found" page). Don't use `noindex` to save crawl budget: Google "will still request, but then drop the page," so the crawl is wasted (crawl-budget guide, updated 2026-07-22). Deindexing is different; see below.
+- **Crawl capacity** (same guide): "Every site starts with the same default, conservative crawl capacity limit." Slow responses, 5xx errors, and 429s lower it. The limit is "shared across all crawlers" on a hostname, so heavy AdsBot or Google Shopping crawling leaves less for Googlebot. Fast responses and `304 Not Modified` support help.
+- **Emergency throttling** (reduce-crawl-rate, updated 2026-10-06): return 503 or 429 with a `Retry-After` header (seconds or a UTC date). This slows crawling for the whole hostname. Don't keep it up "longer than 1-2 days": such URLs "may be dropped from Google's index."
+- **Push submission is narrow.** The Indexing API "can only be used to crawl pages with either JobPosting or BroadcastEvent embedded in a VideoObject," and spam policies apply to submissions. Its 2026-10-16 quota update kept that scope. The UGC Fresh Data Program (2026-10-08) is application-only for large user-generated-content platforms and "doesn't guarantee that content will appear in Search." Neither speeds up ordinary pages.
 - **Removing a page from results**: use `noindex` and keep the page **crawlable** so Google can see the directive. Blocking via `robots.txt` won't reliably remove a URL from results — Google can still index a blocked URL (without its content) if it's linked elsewhere, and it never sees the `noindex` because it can't fetch the page.
 
 ## AI-crawler controls (and what they don't do)
 
-Google operates several crawlers and `robots.txt` product tokens (google-common-crawlers, updated 2026-04-23). The two that get conflated with "AI SEO" actually have **no bearing on Search ranking**:
+Google operates several crawlers and `robots.txt` product tokens (google-common-crawlers, updated 2026-10-15). The two that get conflated with "AI SEO" actually have **no bearing on Search ranking**:
 
 - **Google-Extended**: a `robots.txt` product token (not a separate user-agent string) that controls whether already-crawled content may be used to train and ground Gemini models (Gemini Apps, Vertex AI). Critically: "Google-Extended does not impact a site's inclusion in Google Search nor is it used as a ranking signal in Google Search." Blocking it does **not** hurt SEO — it only opts you out of Gemini training/grounding.
 - **Google-CloudVertexBot**: crawls sites on demand for site owners building their own Vertex AI Agents. "It has no effect on Google Search or other products."
@@ -72,6 +75,12 @@ Beyond Google, several AI products run their own crawlers. Blocking decisions ar
 |---|---|
 | ChatGPT-User | User-initiated browsing actions in ChatGPT. OpenAI: "Because these actions are initiated by a user, robots.txt rules may not apply." |
 | Perplexity-User | User-initiated fetches in Perplexity. |
+| Google-Agent | Google: "used by agents hosted on Google infrastructure to navigate the web and perform actions upon user request." IP ranges in `user-triggered-agents.json`. Added 2026-03-20. |
+| Google-GeminiNotebook | Fetches URLs that Gemini Notebook users add as sources. Replaced `Google-NotebookLM` on 2026-07-16; Google lists the old token as "supported until August 2026." |
+
+**Google's own user-triggered fetchers** (google-user-triggered-fetchers, updated 2026-08-19): *"Because the fetch was requested by a user, these fetchers generally ignore robots.txt rules."* That includes `Google-Agent` and `Google-GeminiNotebook`, so `robots.txt` is not a reliable way to stop them, and blocking them has no Search-ranking effect. To identify them, verify by IP range (`user-triggered-agents.json`) and reverse DNS, because the user-agent string can be spoofed.
+
+**Web Bot Auth (experimental; web-bot-auth, updated 2026-10-13):** Google is testing the IETF Web Bot Auth draft "with some AI agents hosted on Google infrastructure." A subset of `Google-Agent` requests are signed and authenticated as `https://agent.bot.goog`, with public keys at `https://agent.bot.goog/.well-known/http-message-signatures-directory` (HTTP Message Signatures, RFC 9421). If your CDN or WAF supports Web Bot Auth, it likely verifies these automatically. Google does not sign every request, so keep IP, reverse-DNS, and user-agent checks as the fallback.
 
 **Caveats:**
 - A CDN or WAF (e.g., Cloudflare Bot Management) can block crawlers regardless of `robots.txt` settings — check your WAF allowlist if a search crawler is not seeing your content.
@@ -128,6 +137,8 @@ Google does not require perfectly valid HTML, but semantic markup helps both AI 
 ## Duplicate content
 
 - Use **canonical URLs** to consolidate variants (with/without trailing slash, tracking params, sort orders).
+- Give the canonical page a self-referential `rel="canonical"`; Google's doc says "Do include" one (consolidate-duplicate-urls, updated 2026-07-10).
+- After fixing near-duplicates, expect a lag: Google "might hold pages in a duplicate cluster for up to two weeks" (canonicalization troubleshooting, updated 2026-08-21).
 - Avoid serving the same content under both `www` and apex, both `http` and `https`. Redirect to one canonical host.
 - Faceted navigation often creates millions of near-duplicates; either canonicalize them or block crawling of the parameter combinations that don't add unique value.
 - Reducing duplicate content preserves crawl budget and clarifies which version Google should rank.
@@ -142,5 +153,6 @@ For an `app/`-router Next.js app:
 - All anchor navigation uses `next/link` or `<a href>` — no `onClick` push-state navigation for primary links.
 - Server components render the main content by default; client components are leaves, not roots.
 - `metadataBase` is set so absolute URLs in `og:image` etc. resolve.
+- A favicon in a format Google Search lists: BMP, GIF, ICO, PNG, JPEG, PPM, or TIFF (favicon doc, updated 2026-08-28). SVG isn't listed (absent, not forbidden), so pair an `app/icon.svg` with `favicon.ico` or a PNG.
 - 404 page returns a real 404 status (not 200 with a "not found" page).
 - Pages that must be indexed return HTTP 200; intentionally-removed pages use `noindex` (kept crawlable), not a `robots.txt` block.

@@ -6,7 +6,7 @@ A whole genre of advice has emerged around "AEO" and "GEO" claiming there's a se
 
 ## Myth 1: "You need to publish an `llms.txt` file to rank in AI search"
 
-**Reality (Surface A — ranking):** Google does **not** consume `llms.txt` for AI Overviews or AI Mode. A 2026-06-15 note in the AI optimization guide is unambiguous: *"You don't need to create new machine readable files, AI text files, markup, or Markdown to appear in Google Search (including its generative AI capabilities), as Google Search itself doesn't use them."* And: *"Doing so won't harm (nor help) your visibility or rankings in Google Search, as Google Search ignores them."* The guide's next-steps list also explicitly tells you to ignore *"creating unnecessary AI text files (like llms.txt)."* Publishing one will not help you rank or get cited in Google's AI features.
+**Reality (Surface A — ranking):** Google does **not** consume `llms.txt` for AI Overviews or AI Mode. The AI optimization guide (updated 2026-07-10) is unambiguous: *"You don't need to create new machine readable files, AI text files, markup, or Markdown to appear in Google Search (including its generative AI capabilities), as Google Search itself doesn't use them."* A note added on 2026-06-15 now reads: *"It's completely fine if you decide to create and maintain LLMS.txt files (or other similar files) for other services or systems that use these files. Doing so will neither harm nor help your site's visibility or rankings in Google Search, as Google Search ignores them."* The guide's next-steps list also explicitly tells you to ignore *"creating unnecessary AI text files (like llms.txt)."* Publishing one will not help you rank or get cited in Google's AI features. On Search Off the Record episode 114 (2026-10-01, Google-published transcript), asked whether llms.txt would replace XML sitemaps, John Mueller said "No" and *"I think the hope is bigger than the reality, but maybe that will change at some point."* His advice: *"I would not rely on it. I would not treat that as a priority."*
 
 **The nuance (Surface B — agents):** `llms.txt` is **not worthless everywhere.** Chrome's Lighthouse "agentic browsing" category checks for an `llms.txt` at the domain root as an *optional* discoverability hint for AI agents navigating your site: *"Without this file, agents may spend more time crawling the site to understand its high-level structure and primary content."* It's marked **N/A if absent** (not a failure) and is explicitly optional. So:
 
@@ -62,22 +62,39 @@ A whole genre of advice has emerged around "AEO" and "GEO" claiming there's a se
 
 ## Myth 9: "AI-generated content is banned / AI content ranks automatically"
 
-**Reality:** Both halves are wrong. Google does **not** ban AI-generated content, but it isn't a free pass either: *"using generative AI tools... to generate many pages without adding value for users may violate Google's spam policy on scaled content abuse."* The bar is the same as for any content — Search Essentials and the spam policies. For ecommerce, AI-generated product data and images have **labeling requirements** (IPTC `DigitalSourceType: TrainedAlgorithmicMedia`; AI-generated titles/descriptions labeled as such). See [content-strategy.md](content-strategy.md).
+**Reality:** Both halves are wrong. Google does **not** ban AI-generated content, but it isn't a free pass either: *"using generative AI tools... to generate many pages without adding value for users may violate Google's spam policy on scaled content abuse."* The bar is the same as for any content — Search Essentials and the spam policies. For ecommerce, AI-generated product data and images have **labeling requirements** (IPTC `DigitalSourceType: TrainedAlgorithmicMedia`; AI-generated titles/descriptions labeled as such). See [content-strategy.md](content-strategy.md). Google's raters count unsupervised mass AI text as "little to no effort" (helpful-content guide, updated 2026-10-05).
 
 **What to do instead:** use AI as a tool to produce genuinely helpful, people-first content with real expertise behind it; disclose automation where readers would expect it; never mass-produce thin pages.
 
 ## Myth 10: "AEO/GEO is a separate discipline — I need a special 'GEO score' to track it"
 
-**Reality:** Google's own AI optimization guide states that optimizing for AI search is still SEO — the same technical health, content quality, and earned-authority signals that power classical ranking power AI-feature surfacing. "AEO" and "GEO" are marketing labels, not distinct disciplines with separate ranking systems.
+**Reality:** Google's own AI optimization guide states that optimizing for AI search is still SEO — the same technical health, content quality, and earned-authority signals that power classical ranking power AI-feature surfacing. "AEO" and "GEO" are marketing labels, not distinct disciplines with separate ranking systems. Google staff say the same: "There's no magic trick or secret file involved" (John Mueller on the AI optimization guide, Google Search News, 2026-06-18) and "good SEO is good GEO" (Martin Splitt on PDFs, Search Off the Record ep. 115, 2026-10-13).
 
-The proprietary 0–100 "GEO scores" sold by some tools use invented, uncalibrated weights with no published methodology and no relationship to any Google signal. There is no Google-defined GEO score. And the underlying content-rewrite tactics those scores optimize for don't hold up when tested — see the peer-reviewed evidence (C-SEO Bench) in the pattern summary at the end of this file.
+The proprietary 0–100 "GEO scores" sold by some tools use invented, uncalibrated weights with no published methodology and no relationship to any Google signal. There is no Google-defined GEO score. Google's guide warns: *"Be wary of third-party tools that promise ranking success or claim to use "internal" Google metrics."* And the underlying content-rewrite tactics those scores optimize for don't hold up when tested — see the peer-reviewed evidence (C-SEO Bench) in the pattern summary at the end of this file.
 
 **What to do instead:**
 
 - **Surface A (ranking / AI Overviews / AI Mode):** SEO excellence — the five fundamentals in the closing section below.
 - **Surface B (agent usability):** agent-readiness as described in [agentic-experiences.md](agentic-experiences.md).
 
-For measurement, use the Search Console Generative AI performance report (launched 2026-06-03) as your primary data source. Vendor AI-visibility tools are an emerging category with no standardized methodology — treat their scores as directional at best.
+For measurement, use Search Console's Generative AI performance reports (worldwide since 2026-08-31; impressions for AI Overviews, AI Mode, and Discover) as your primary data source. Google's own guide cautions: *"No third-party tool has access to our internal ranking or AI systems. Use these tools if they help your workflow, but be sure to evaluate their advice against our official guidance."* Vendor AI-visibility tools are an emerging category with no standardized methodology — treat their scores as directional at best.
+
+## Myth 11: "Give AI agents a separate Markdown or 'agent-friendly' copy of your site"
+
+**Reality:** Myth 1's quote covers Markdown, and Google *"may discover, crawl, and index many kinds of files in addition to HTML on a website: this doesn't mean that the file is treated in a special way."* Chrome separates *"agents searching the web and agents using the web."* For searching, *"the principles for Search Engine Optimization (SEO) still apply"* (Chrome blog, 2026-06-22). Agents using a site read *"screenshots, raw HTML, and the accessibility tree"* (web.dev, updated 2026-04-01).
+
+**What to do instead:** fix the real page. web.dev: *"Everything we suggest to make a site "agent-ready" also makes sites better for humans."* Serving Markdown through `Accept: text/markdown` negotiation on the *same* URL is the same idea on one address: a harmless convenience with no ranking effect. If you do it, keep the Markdown equivalent to the HTML and send `Vary: Accept`.
+
+## Myth 12: "AI author personas with expert bios build E-E-A-T"
+
+**Reality:** Google's helpful-content guide (updated 2026-10-05) names the tactic: *"Fabricating creator profiles (such as by using AI-generated headshots, made-up names, or false credentials to make content appear as if it was written by human experts) is a form of deception."* Any deception *"makes a page untrustworthy to both users and our automated quality systems, and is a signal of a low-quality page."* A fake expert subtracts trust, the E-E-A-T component Google calls most important.
+
+**What to do instead:** use accurate bylines that lead to real author pages. If no qualified person wrote the page, have one review it, and disclose AI use *"when it would be reasonably expected."* See [content-strategy.md](content-strategy.md).
+
+## Quick ones: two more "boost" myths
+
+- **"Use the Indexing API to get any page indexed faster."** On 2026-10-16 Google removed *"an outdated form,"* not the scope: the API *"can only be used to crawl pages with either JobPosting or BroadcastEvent embedded in a VideoObject"* (Indexing API quickstart, updated 2026-10-16).
+- **"AMP ranks better."** Google's 2026-07-01 changelog: *"AMP content will continue to rank just like any other web page."*
 
 ## The pattern behind the myths
 
