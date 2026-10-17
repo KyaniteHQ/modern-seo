@@ -83,7 +83,7 @@ For measurement, use Search Console's Generative AI performance reports (worldwi
 
 **Reality:** Myth 1's quote covers Markdown, and Google *"may discover, crawl, and index many kinds of files in addition to HTML on a website: this doesn't mean that the file is treated in a special way."* Chrome separates *"agents searching the web and agents using the web."* For searching, *"the principles for Search Engine Optimization (SEO) still apply"* (Chrome blog, 2026-06-22). Agents using a site read *"screenshots, raw HTML, and the accessibility tree"* (web.dev, updated 2026-04-01).
 
-**What to do instead:** fix the real page. web.dev: *"Everything we suggest to make a site "agent-ready" also makes sites better for humans."*
+**What to do instead:** fix the real page. web.dev: *"Everything we suggest to make a site "agent-ready" also makes sites better for humans."* Serving Markdown through `Accept: text/markdown` negotiation on the *same* URL is the same idea on one address: a harmless convenience with no ranking effect. If you do it, keep the Markdown equivalent to the HTML and send `Vary: Accept`.
 
 ## Myth 12: "AI author personas with expert bios build E-E-A-T"
 
