@@ -65,14 +65,16 @@ Two independent studies confirm this. C-SEO Bench (Puerto et al., arXiv:2506.110
 
 ### Google Search Console
 
-Google launched two reports on 2026-06-03 (UK first):
+Google announced two Search Console reports and a control on 2026-06-03 as a test with a subset of UK sites. **As of 2026-08-31 all three are rolled out to all websites worldwide** (Search Console help, current as of 2026-10; blog.google "New opportunities, control and insights for website owners", updated 2026-08-31).
 
-- **Search "Generative AI" performance report** — covers AI Overviews and AI Mode, blended (not separated). Impressions-focused.
-- **Discover generative-AI report** — separate from the Search report.
+- **Generative AI performance report (Search)**: impressions for AI Overviews and AI Mode (support.google.com/webmasters/answer/16984139). You can group by page, country, date, and device, and filter by search type: **Web: text-based** or **Web: multimodal** (Google Lens, Circle to Search, uploaded images, Chrome image search). The report lists no dimension that splits AI Overviews from AI Mode, and it excludes Search Labs experiments. It shows **impressions only**; clicks on links inside AI Overviews and AI Mode count as ordinary clicks in the standard Performance report (support.google.com/webmasters/answer/7042828).
+- **Generative AI performance report (Discover)**: impressions for generative AI features in Discover, by page, country, and date (support.google.com/webmasters/answer/16983858). It is separate from the Search report.
 
-**Impression baseline caveat:** an impression over-counting bug (logging error window approximately 2025-05-13 to 2026-04-27, disclosed 2026-04-03) means year-over-year impression comparisons within that window are unreliable.
+If a report is missing, the site usually has too few AI-feature impressions or has been excluded with the control below.
 
-**AI-features opt-out control:** removes content from Google's generative AI features without affecting standard organic ranking. Google's documentation states the opt-out "will not be used as a ranking signal for search results outside of these generative AI Search features" — a neutral strategic choice, not a penalty.
+**Impression baseline caveat:** an impression over-counting bug (logging error window 2025-05-13 to 2026-04-27, disclosed 2026-04-03) means year-over-year impression comparisons within that window are unreliable. Google's data-anomalies page also lists a Generative AI (Search) impressions dip for 2026-08-13 to 08-17, restored on 2026-08-21 (support.google.com/webmasters/answer/6211453, current as of 2026-10).
+
+**Search generative AI control** (Search Console → Settings → Search generative AI; support.google.com/webmasters/answer/16908024, current as of 2026-10): choose **Include** (the default), **Exclude**, or **Inherit control from parent** (the default for child properties). It covers AI Overviews, AI Mode, and generative AI features in Discover. Excluding removes your links and content from those features, including grounding, so you get no traffic or impressions from them. The change applies "within 1-2 days after the control goes live," sometimes longer. Google's help page says the control "isn't used as a ranking or inclusion signal affecting other parts of Search." It has two limits: your content "may still be used to power Google Search as a whole," and it "doesn't affect AI training" — for training, use `Google-Extended`. Since its 2026-07-10 update the AI optimization guide makes inclusion a precondition for appearing in AI features at all. Treat exclusion as a neutral strategic trade, not a penalty, and check the Generative AI report before you flip it.
 
 ### Third-party tools — emerging category, no standard methodology
 

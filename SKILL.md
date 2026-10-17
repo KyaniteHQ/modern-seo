@@ -45,7 +45,7 @@ Route advice through these, in roughly this priority order.
 
 ### 1. SEO excellence is the prerequisite for AI visibility (Surface A)
 
-Generative AI features use the same index, crawlers, and ranking systems as classical Search. A page that is not indexed and snippet-eligible cannot appear in AI Overviews — full stop. Before recommending anything exotic, verify the basics: crawlable, indexable, fast, free of duplicates, clear about its main content. Note Google's own caveat: meeting every requirement still does **not guarantee** crawling, indexing, or serving.
+Generative AI features use the same index, crawlers, and ranking systems as classical Search. A page that is not indexed and snippet-eligible cannot appear in AI Overviews — full stop. Before recommending anything exotic, verify the basics: crawlable, indexable, fast, free of duplicates, clear about its main content. Note Google's own caveat: meeting every requirement still does **not guarantee** crawling, indexing, or serving. Since its 2026-07-10 update the guide adds a second gate: *"a site must be included in Search generative AI features in Search Console to be eligible for display in generative AI features on Google Search"* (included is the default; see principle 10).
 
 ### 2. Non-commodity content wins (Surface A)
 
@@ -60,7 +60,7 @@ The test: *if you removed the author, would anything remain that isn't already o
 
 Google's guide explicitly lists tactics you can **ignore for Google Search**:
 
-- **`llms.txt` / AI text files / special markup** — *"You don't need to create new machine readable files, AI text files, markup, or Markdown to appear in generative AI search."* (This is about ranking — see Surface B for its real, separate role.)
+- **`llms.txt` / AI text files / special markup** — *"You don't need to create new machine readable files, AI text files, markup, or Markdown to appear in Google Search (including its generative AI capabilities), as Google Search itself doesn't use them."* (This is about ranking — see Surface B for its real, separate role.)
 - **Content "chunking"** — *"There's no requirement to break your content into tiny pieces... There's no ideal page length."*
 - **Rewriting in a special "AI style"** — *"AI systems can understand synonyms and general meanings."* No special vocabulary, no long-tail keyword obsession.
 - **Inauthentic "mentions"** — seeding fake mentions is filtered by spam systems and *"isn't as helpful as it might seem."*
@@ -95,18 +95,18 @@ Google is explicit: structured data is **not required** for generative AI featur
 
 ### 7. Business listings carry product and local visibility (Surface A)
 
-For ecommerce and local businesses, AI responses surface details from **Google Merchant Center** (products), **Google Business Profile** (local), and **Business Agent** conversational surfaces. A great website without a Merchant Center feed loses to a mediocre competitor that has one. Always ask whether these are set up before optimizing the website itself. See [references/business-local.md](references/business-local.md).
+For ecommerce and local businesses, AI responses surface details from **Google Merchant Center** (products), **Google Business Profile** (local), and **Business Agent** (a brand-profile chat fed by Merchant Center) conversational surfaces. A great website without a Merchant Center feed loses to a mediocre competitor that has one. Always ask whether these are set up before optimizing the website itself. See [references/business-local.md](references/business-local.md).
 
 ### 8. Build for agents — the new, real, non-gimmick surface (Surface B)
 
 AI agents browse and act on the web on users' behalf: comparison shopping, booking, form-filling, checkout. They read the DOM, the rendered pixels, and **the accessibility tree** (their primary data model). This is a genuinely new discipline — not a ranking hack — with concrete, emerging standards:
 
 - **Agent-friendly UX**: real semantic elements, stable layout (low CLS — agents use coordinates/screenshots), clean accessibility tree (names, roles, valid hierarchy), `<label for>`, visible hit targets, no ghost overlays. Same work as a serious accessibility pass.
-- **WebMCP** (proposed standard; Chrome origin trial 149–156, ships unflagged in Chrome 157): annotate forms and register JS tools (via `document.modelContext`) so agents know exactly how to operate page features, with JSON-Schema inputs to reduce hallucination.
-- **Chrome Lighthouse "agentic browsing" category** (now in Lighthouse's default config as of 13.3.0): scores agent-readiness as a pass-ratio (not 0–100) across WebMCP integration, agent-centric accessibility, and stability/discoverability (including an optional `llms.txt` check — a missing file is N/A, not a failure).
+- **WebMCP** (proposed standard; Chrome origin trial 149–162, no ship milestone as of 2026-10): register JS tools with `document.modelContext.registerTool()` so agents know exactly how to operate page features, with JSON-Schema inputs to reduce hallucination. Chrome's trial also accepts declarative form annotations, but the spec draft dropped them on 2026-10-08.
+- **Chrome Lighthouse "agentic browsing" category** (in Lighthouse's default config since 13.3.0; 7 audits as of 13.5.0, 2026-09-18): scores agent-readiness as a pass-ratio (not 0–100) across WebMCP, agent accessibility, layout stability (CLS), and agent discoverability (an optional `llms.txt` check — a missing file is N/A, not a failure — and an ARD manifest check).
 - **`llms.txt`** lives **here**, not in ranking: an optional Markdown summary at the domain root that helps agents (and some dev-tools like Cursor/Windsurf) understand your site faster. N/A if absent; not a Google ranking signal.
-- **Agentic commerce — UCP & ACP** (the two full-stack standards): **UCP** (Google + Shopify, launched Jan 2026) powers agentic checkout in AI Mode and Gemini; **ACP** (Stripe + OpenAI, Sept 2025) is the sibling protocol in the ChatGPT/Stripe ecosystem. **AP2** (donated to the FIDO Alliance, Apr 2026) is the payment-authorization layer that plugs *into* UCP — not a competitor. Watch, don't hand-roll; Shopify/Stripe merchants get coverage via their platform. Keep a clean web checkout as the fallback.
-- **Agent discovery — ARD** (Agentic Resource Discovery, announced Jun 2026): an emerging `/.well-known/ai-catalog.json` spec enumerating MCP servers, A2A agents, and tools. Very new — watch the spec; it has no Google-ranking effect.
+- **Agentic commerce — UCP & ACP** (the two full-stack standards): **UCP** (Google + Shopify, launched Jan 2026) powers checkout and cart transfer in AI Mode and Gemini (latest spec v2026-08-25; Google's merchant docs still target 2026-04-08); **ACP** (Stripe + OpenAI, Sept 2025) is the sibling protocol in the ChatGPT/Stripe ecosystem. **AP2** (contributed to the FIDO Alliance, Apr 2026) is the payment-authorization layer that plugs *into* UCP — not a competitor. Watch, don't hand-roll; Shopify/Stripe merchants get coverage via their platform. Keep a clean web checkout as the fallback.
+- **Agent discovery — ARD** (Agentic Resource Discovery, announced Jun 2026; spec v0.91 "Proposal", 2026-08-26): an emerging manifest at `/.well-known/ard.json` (link rel `ard`) listing MCP servers, A2A agents, skills, and other agentic resources; the older `/.well-known/ai-catalog.json` is legacy. Very new — watch the spec; it has no Google-ranking effect.
 
 See [references/agentic-experiences.md](references/agentic-experiences.md) and [references/agentic-web-standards.md](references/agentic-web-standards.md).
 
@@ -116,7 +116,7 @@ ChatGPT, Perplexity, and Copilot also cite the web, but from their **own** retri
 
 ### 10. Measure AI visibility — don't guess
 
-There's now a feedback loop. Google Search Console ships **Generative AI performance reports** (impressions for AI Overviews + AI Mode; a separate one for Discover) and an **AI-features opt-out** that doesn't affect organic ranking. Third-party tools (Profound, Ahrefs Brand Radar, Semrush AI Visibility Toolkit) are an emerging category with no standard methodology. Watch for **"ghost citations"** — your URL used as a source while your brand name never appears in the answer (cited ≠ recommended). Treat every vendor lift statistic as directional, never a planning target. See [references/ai-search-mechanics.md](references/ai-search-mechanics.md).
+There's now a first-party feedback loop, worldwide since 2026-08-31. Google Search Console's **Generative AI performance reports** show **impressions** for AI Overviews and AI Mode, with a separate report for generative features in Discover; neither has a clicks column (AI-feature clicks are counted in the standard Performance report). The **Search generative AI control** includes or excludes a site from those features — Google says it *"isn't used as a ranking or inclusion signal affecting other parts of Search,"* and it doesn't govern AI training (that's `Google-Extended`). The AI optimization guide (updated 2026-07-10) makes inclusion a precondition for appearing in generative AI features, and warns: *"No third-party tool has access to our internal ranking or AI systems."* Third-party tools (Profound, Ahrefs Brand Radar, Semrush AI Visibility Toolkit) are an emerging category with no standard methodology. Watch for **"ghost citations"** — your URL used as a source while your brand name never appears in the answer (cited ≠ recommended). Treat every vendor lift statistic as directional, never a planning target. See [references/ai-search-mechanics.md](references/ai-search-mechanics.md).
 
 ## How to apply this skill in conversation
 
@@ -158,8 +158,8 @@ If a question genuinely spans multiple domains, use this skill to frame the stra
 - [references/structured-data.md](references/structured-data.md) — when to use, what types, FAQ/HowTo rich-result deprecation, JSON-LD patterns, AI-content labeling, common mistakes
 - [references/business-local.md](references/business-local.md) — Merchant Center, Business Profile, Business Agent, agentic checkout (UCP / ACP / AP2), Preferred Sources, local SEO foundations
 - [references/mythbusting.md](references/mythbusting.md) — llms.txt (and its real Surface-B role), chunking, AI-rewriting, inauthentic mentions, "GEO is a separate discipline," and why they don't help ranking (with peer-reviewed backing)
-- [references/agentic-experiences.md](references/agentic-experiences.md) — browser agents, the accessibility tree, Lighthouse agentic-browsing scoring (now default config), agent-readiness audit
-- [references/agentic-web-standards.md](references/agentic-web-standards.md) — WebMCP (`document.modelContext`), UCP and ACP, AP2 (FIDO), ARD (`/.well-known/ai-catalog.json`), RSL, MCP, what to adopt now vs. watch
+- [references/agentic-experiences.md](references/agentic-experiences.md) — browser agents, the accessibility tree, Lighthouse agentic-browsing scoring (default config since 13.3.0; 7 audits in 13.5.0), agent-readiness audit
+- [references/agentic-web-standards.md](references/agentic-web-standards.md) — WebMCP (`document.modelContext`), UCP and ACP, AP2 (FIDO), ARD (`/.well-known/ard.json`; `ai-catalog.json` is legacy), RSL, MCP, what to adopt now vs. watch
 
 ## Sources and versioning
 
@@ -182,8 +182,10 @@ Grounded in these primary sources (verify against the live docs, which change):
 
 - Google — AI optimization guide: https://developers.google.com/search/docs/fundamentals/ai-optimization-guide
 - Google — Search Central documentation updates (changelog): https://developers.google.com/search/updates
-- Google — FAQ structured data (deprecation notice): https://developers.google.com/search/docs/appearance/structured-data/faqpage
-- Google — Search Console Generative AI performance reports: https://developers.google.com/search/blog
+- Google — FAQ rich result removal (changelog; the old `/structured-data/faqpage` doc URL now 301-redirects here): https://developers.google.com/search/updates#removing-faq-rich-result
+- Google — Search Console Generative AI performance report (Search): https://support.google.com/webmasters/answer/16984139
+- Google — Search Console Generative AI performance report (Discover): https://support.google.com/webmasters/answer/16983858
+- Google — Search generative AI control: https://support.google.com/webmasters/answer/16908024
 - OpenAI — Overview of OpenAI crawlers (GPTBot, OAI-SearchBot, ChatGPT-User): https://platform.openai.com/docs/bots
 - Perplexity — bots / PerplexityBot: https://docs.perplexity.ai
 - Microsoft — Copilot (Bing) and IndexNow: https://www.bing.com/indexnow

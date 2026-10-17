@@ -32,7 +32,7 @@ Even teams that "don't have unique content" almost always do — they just haven
 
 ## E-E-A-T: trust is the core
 
-Google evaluates content quality through **E-E-A-T**: Experience, Expertise, Authoritativeness, Trustworthiness ("Creating helpful, people-first content", updated 2025-12-10). The hierarchy matters:
+Google evaluates content quality through **E-E-A-T**: Experience, Expertise, Authoritativeness, Trustworthiness ("Creating helpful, reliable, people-first content", updated 2026-10-05). The hierarchy matters:
 
 > Of these aspects, trust is most important. The others contribute to trust, but content doesn't necessarily have to demonstrate all of them.
 
@@ -57,7 +57,7 @@ Note on quality raters: their judgments don't feed ranking directly. "Rater data
 
 The date-churning myth above covers the failure mode. The legitimate counterpart is **genuine content maintenance**: updating a page when the underlying facts change — prices, regulations, statistics, software versions, product availability. When the information on a page becomes inaccurate, correcting it serves users and is a real quality signal.
 
-Google's RAG documentation explicitly aims to improve "the quality, accuracy, and **freshness**" of AI responses (AI optimization guide, developers.google.com/search/docs/fundamentals/ai-optimization-guide, 2026-05-15). Recency carries additional weight on AI search surfaces beyond Google: Perplexity, which runs its own proprietary index, particularly weights fresh content for real-time queries.
+Google's RAG documentation explicitly aims to improve "the quality, accuracy, and **freshness**" of AI responses (AI optimization guide, developers.google.com/search/docs/fundamentals/ai-optimization-guide, updated 2026-07-10). Recency carries additional weight on AI search surfaces beyond Google: Perplexity, which runs its own proprietary index, particularly weights fresh content for real-time queries.
 
 Express freshness honestly:
 
@@ -104,9 +104,9 @@ A useful heuristic: only spin up a new page if it has a substantively different 
 
 ## Using AI to generate content (the rules)
 
-AI-generated content is **not banned**. Google's position ("using-gen-ai-content" + spam policies, updated 2025-12-10 / 2026-05-15) is that AI content must meet the same Search Essentials and spam policies as anything else. The line is value, not authorship:
+AI-generated content is **not banned**. Google's position ("using-gen-ai-content" + spam policies, updated 2026-10-01 / 2026-08-28) is that AI content must meet the same Search Essentials and spam policies as anything else. The line is value, not authorship:
 
-> Using generative AI tools or other similar tools to generate many pages without adding value for users may violate Google's spam policy on scaled content abuse.
+> …using generative AI tools or other similar tools to generate many pages without adding value for users may violate Google's spam policy on scaled content abuse.
 
 So the failure mode isn't "used AI" — it's mass-producing thin pages. Disclosure is encouraged where readers would expect it (see the **How** question under E-E-A-T).
 

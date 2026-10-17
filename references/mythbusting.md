@@ -6,7 +6,7 @@ A whole genre of advice has emerged around "AEO" and "GEO" claiming there's a se
 
 ## Myth 1: "You need to publish an `llms.txt` file to rank in AI search"
 
-**Reality (Surface A — ranking):** Google does **not** consume `llms.txt` for AI Overviews or AI Mode. A 2026-06-15 note in the AI optimization guide is unambiguous: *"You don't need to create new machine readable files, AI text files, markup, or Markdown to appear in Google Search (including its generative AI capabilities), as Google Search itself doesn't use them."* And: *"Doing so won't harm (nor help) your visibility or rankings in Google Search, as Google Search ignores them."* The guide's next-steps list also explicitly tells you to ignore *"creating unnecessary AI text files (like llms.txt)."* Publishing one will not help you rank or get cited in Google's AI features.
+**Reality (Surface A — ranking):** Google does **not** consume `llms.txt` for AI Overviews or AI Mode. The AI optimization guide (updated 2026-07-10) is unambiguous: *"You don't need to create new machine readable files, AI text files, markup, or Markdown to appear in Google Search (including its generative AI capabilities), as Google Search itself doesn't use them."* A note added on 2026-06-15 now reads: *"It's completely fine if you decide to create and maintain LLMS.txt files (or other similar files) for other services or systems that use these files. Doing so will neither harm nor help your site's visibility or rankings in Google Search, as Google Search ignores them."* The guide's next-steps list also explicitly tells you to ignore *"creating unnecessary AI text files (like llms.txt)."* Publishing one will not help you rank or get cited in Google's AI features.
 
 **The nuance (Surface B — agents):** `llms.txt` is **not worthless everywhere.** Chrome's Lighthouse "agentic browsing" category checks for an `llms.txt` at the domain root as an *optional* discoverability hint for AI agents navigating your site: *"Without this file, agents may spend more time crawling the site to understand its high-level structure and primary content."* It's marked **N/A if absent** (not a failure) and is explicitly optional. So:
 
@@ -77,7 +77,7 @@ The proprietary 0–100 "GEO scores" sold by some tools use invented, uncalibrat
 - **Surface A (ranking / AI Overviews / AI Mode):** SEO excellence — the five fundamentals in the closing section below.
 - **Surface B (agent usability):** agent-readiness as described in [agentic-experiences.md](agentic-experiences.md).
 
-For measurement, use the Search Console Generative AI performance report (launched 2026-06-03) as your primary data source. Vendor AI-visibility tools are an emerging category with no standardized methodology — treat their scores as directional at best.
+For measurement, use Search Console's Generative AI performance reports (worldwide since 2026-08-31; impressions for AI Overviews, AI Mode, and Discover) as your primary data source. Google's own guide cautions: *"No third-party tool has access to our internal ranking or AI systems. Use these tools if they help your workflow, but be sure to evaluate their advice against our official guidance."* Vendor AI-visibility tools are an emerging category with no standardized methodology — treat their scores as directional at best.
 
 ## The pattern behind the myths
 

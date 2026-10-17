@@ -47,7 +47,7 @@ Pick by content type. Don't add schemas for content types that don't match.
 
 ### Schema deprecation tracker
 
-- **FAQPage**: Rich results removed 2026-05-07 (Search Console reports/test removed June 2026, API support removed August 2026). FAQ rich results had already been restricted to authoritative government and health sites since 2023-09-14; 2026-05-07 is the final complete removal — it was never universal. Markup remains valid schema.org and is harmless to keep, but do not implement it expecting a SERP rich result. ([developers.google.com/search/docs/appearance/structured-data/faqpage](https://developers.google.com/search/docs/appearance/structured-data/faqpage))
+- **FAQPage**: Rich results removed 2026-05-07 (Search Console reports/test removed June 2026, API support removed August 2026). FAQ rich results had already been restricted to authoritative government and health sites since 2023-09-14; 2026-05-07 is the final complete removal — it was never universal. Markup remains valid schema.org and is harmless to keep, but do not implement it expecting a SERP rich result. ([developers.google.com/search/updates#removing-faq-rich-result](https://developers.google.com/search/updates#removing-faq-rich-result); the old `/structured-data/faqpage` URL now redirects there)
 - **HowTo**: Rich results removed 2023-09-14. Markup remains valid schema.org and harmless to keep. The structured-data doc now redirects to the changelog.
 - **QAPage**: Still supported and the recommended alternative for Q&A and forum content; gained new supported properties 2026-03-24. Pair with Discussion Forum markup for threaded forum pages.
 

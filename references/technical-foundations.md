@@ -31,7 +31,7 @@ Quick checks: Google Search Console's URL Inspection tool, `curl -A "Googlebot" 
 
 ## AI-crawler controls (and what they don't do)
 
-Google operates several crawlers and `robots.txt` product tokens (google-common-crawlers, updated 2026-04-23). The two that get conflated with "AI SEO" actually have **no bearing on Search ranking**:
+Google operates several crawlers and `robots.txt` product tokens (google-common-crawlers, updated 2026-10-15). The two that get conflated with "AI SEO" actually have **no bearing on Search ranking**:
 
 - **Google-Extended**: a `robots.txt` product token (not a separate user-agent string) that controls whether already-crawled content may be used to train and ground Gemini models (Gemini Apps, Vertex AI). Critically: "Google-Extended does not impact a site's inclusion in Google Search nor is it used as a ranking signal in Google Search." Blocking it does **not** hurt SEO — it only opts you out of Gemini training/grounding.
 - **Google-CloudVertexBot**: crawls sites on demand for site owners building their own Vertex AI Agents. "It has no effect on Google Search or other products."
@@ -72,6 +72,12 @@ Beyond Google, several AI products run their own crawlers. Blocking decisions ar
 |---|---|
 | ChatGPT-User | User-initiated browsing actions in ChatGPT. OpenAI: "Because these actions are initiated by a user, robots.txt rules may not apply." |
 | Perplexity-User | User-initiated fetches in Perplexity. |
+| Google-Agent | Google: "used by agents hosted on Google infrastructure to navigate the web and perform actions upon user request." IP ranges in `user-triggered-agents.json`. Added 2026-03-20. |
+| Google-GeminiNotebook | Fetches URLs that Gemini Notebook users add as sources. Replaced `Google-NotebookLM` on 2026-07-16; Google lists the old token as "supported until August 2026." |
+
+**Google's own user-triggered fetchers** (google-user-triggered-fetchers, updated 2026-08-19): *"Because the fetch was requested by a user, these fetchers generally ignore robots.txt rules."* That includes `Google-Agent` and `Google-GeminiNotebook`, so `robots.txt` is not a reliable way to stop them, and blocking them has no Search-ranking effect. To identify them, verify by IP range (`user-triggered-agents.json`) and reverse DNS, because the user-agent string can be spoofed.
+
+**Web Bot Auth (experimental; web-bot-auth, updated 2026-10-13):** Google is testing the IETF Web Bot Auth draft "with some AI agents hosted on Google infrastructure." A subset of `Google-Agent` requests are signed and authenticated as `https://agent.bot.goog`, with public keys at `https://agent.bot.goog/.well-known/http-message-signatures-directory` (HTTP Message Signatures, RFC 9421). If your CDN or WAF supports Web Bot Auth, it likely verifies these automatically. Google does not sign every request, so keep IP, reverse-DNS, and user-agent checks as the fallback.
 
 **Caveats:**
 - A CDN or WAF (e.g., Cloudflare Bot Management) can block crawlers regardless of `robots.txt` settings — check your WAF allowlist if a search crawler is not seeing your content.
