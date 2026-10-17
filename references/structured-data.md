@@ -6,9 +6,11 @@ Google's AI optimization guide states explicitly: **structured data is not a req
 - It reduces ambiguity about what a page represents.
 - It can feed Google Knowledge Graph signals for entities (organization, products, people).
 
-Google's wording is exact: structured data "isn't required for generative AI search, and there's no special schema.org markup you need to add. However, it's a good idea to continue using it as part of your overall SEO strategy, as it helps with being eligible for rich results."
+Google's wording is exact (AI optimization guide, updated 2026-07-10): structured data "isn't required for generative AI search, and there's no special schema.org markup you need to add. However, it's a good idea to continue using it as part of your overall SEO strategy, as it helps with being eligible for rich results on Google Search."
 
 Don't sell it to the user as "the AI Overviews unlock." Treat it as ordinary SEO hygiene with rich-result upside.
+
+Google's AI features page (updated 2025-12-10) lists "Making sure your structured data matches the visible text on the page" among the existing SEO fundamentals that "continue to be worthwhile" for AI Overviews and AI Mode. No Google document says markup is passed to those features as context (checked 2026-10), so don't claim it is. Markup that contradicts the page can cost rich-result eligibility.
 
 A 2026-05-11 Ahrefs difference-in-differences study (~1,885 pages already cited in AI answers) found that adding JSON-LD produced **no positive AI-citation uplift** on any platform; the AI Overviews arm trended slightly negative. This is a single-vendor, directional study, but it consistently supports Google's stated position. Structured data's real value remains rich-result eligibility and entity disambiguation — not AI-citation frequency.
 
@@ -39,24 +41,25 @@ Pick by content type. Don't add schemas for content types that don't match.
 | `LocalBusiness` (or subtype) | Local services / brick-and-mortar | Address, phone, hours, geo, area served. For logistics: `MovingCompany`, `AutoRepair`, etc. when applicable |
 | `BreadcrumbList` | All non-home pages with a breadcrumb path | One per page |
 | `Article` / `BlogPosting` | Editorial content | Headline, datePublished, dateModified, author, image |
-| `Product` | Product detail pages | Price, availability, aggregateRating (only if you genuinely collect reviews) |
+| `Product` | Product detail pages | Price, availability, aggregateRating (only if you genuinely collect reviews). Optional `category` (documented 2026-07-07) mirrors the Merchant Center feed |
 | `Service` | Service detail pages | Useful for service businesses (logistics, consulting, agencies) |
 | `FAQPage` | Pages with a real FAQ section visible to users | Rich results deprecated 2026-05-07 (gov/health-only since 2023-09-14); markup harmless but yields no rich result |
 | `HowTo` | Step-by-step instructional content | Rich results deprecated 2023-09-14; markup harmless but yields no rich result |
-| `VideoObject` | Pages with embedded original video | thumbnailUrl, uploadDate, duration |
+| `VideoObject` | Pages with embedded original video | Required: name, thumbnailUrl, uploadDate. Recommended `creator` (Person or Organization, documented 2026-09-24) attributes the video; `interactionStatistic` covers watch, like, comment, and share counts |
 
 ### Schema deprecation tracker
 
-- **FAQPage**: Rich results removed 2026-05-07 (Search Console reports/test removed June 2026, API support removed August 2026). FAQ rich results had already been restricted to authoritative government and health sites since 2023-09-14; 2026-05-07 is the final complete removal — it was never universal. Markup remains valid schema.org and is harmless to keep, but do not implement it expecting a SERP rich result. ([developers.google.com/search/updates#removing-faq-rich-result](https://developers.google.com/search/updates#removing-faq-rich-result); the old `/structured-data/faqpage` URL now redirects there)
+- **FAQPage**: Rich results removed 2026-05-07; docs removed 2026-06-15. As of 2026-10, FAQ is gone from Search Console's rich result reports and the Rich Results Test. FAQ rich results had already been restricted to authoritative government and health sites since 2023-09-14; 2026-05-07 is the final complete removal — it was never universal. Markup remains valid schema.org and is harmless to keep, but do not implement it expecting a SERP rich result. ([developers.google.com/search/updates#removing-faq-rich-result](https://developers.google.com/search/updates#removing-faq-rich-result); the old `/structured-data/faqpage` URL now redirects there)
 - **HowTo**: Rich results removed 2023-09-14. Markup remains valid schema.org and harmless to keep. The structured-data doc now redirects to the changelog.
 - **QAPage**: Still supported and the recommended alternative for Q&A and forum content; gained new supported properties 2026-03-24. Pair with Discussion Forum markup for threaded forum pages.
 
-The table above is a working subset. Google documents a broad gallery of around 26 rich-result types in its [search gallery](https://developers.google.com/search/docs/appearance/structured-data/search-gallery) — Article, Breadcrumb, Carousel, Course, Dataset, Discussion forum, Event, FAQ, Image metadata, Job posting, Local business, Math solver, Movie, Organization, Product, Profile page, Q&A, Recipe, Review snippet, Software app, Speakable, Subscription/paywalled content, Vacation rental, Video, and more. Pick the documented type that genuinely matches your content. Don't fabricate "AI" schema types — there is no such thing, and inventing one does nothing.
+The table above is a working subset. Google documents a broad gallery of 25 rich-result types in its [search gallery](https://developers.google.com/search/docs/appearance/structured-data/search-gallery) (updated 2026-10-16; FAQ is no longer listed) — Article, Breadcrumb, Carousel, Course, Dataset, Discussion forum, Event, Image metadata, Job posting, Local business, Math solver, Movie, Organization, Product, Profile page, Q&A, Recipe, Review snippet, Software app, Speakable, Subscription/paywalled content, Vacation rental, Video, and more. Pick the documented type that genuinely matches your content. Don't fabricate "AI" schema types — there is no such thing, and inventing one does nothing.
 
 ## Common mistakes
 
 - **Markup that doesn't match the visible page.** Adding `FAQPage` schema without an actual visible FAQ violates Google's structured data guidelines and can trigger manual actions. The markup must reflect content the user sees.
 - **`AggregateRating` without real reviews.** Inventing star ratings is a quick way to lose rich-result eligibility.
+- **Stale sale dates in `Product` markup.** Google: "Your listing may not display if the priceValidUntil property indicates a past date" (merchant listing, updated 2026-09-08). Update or remove sale dates when the sale ends.
 - **Fake `Review` snippets** for services or businesses with no genuine review surface.
 - **Multiple conflicting `Organization` blocks** across templates. Define once, sitewide.
 - **`BreadcrumbList` that disagrees with the URL structure.** The schema should match the actual page hierarchy. Each non-final item's `item` must be a real page URL — Google defines it as *"the URL to the webpage that represents the breadcrumb"* — so use the canonical page path, not a fragment anchor like `/#section`. (Google doesn't document the fragment-URL failure mode, so treat "the rich result drops" as practitioner caution, not a stated rule.)
@@ -65,12 +68,14 @@ The table above is a working subset. Google documents a broad gallery of around 
 
 ## Labeling AI-generated content in structured data
 
-If you use AI to generate product imagery or copy, labeling it is a compliance requirement, not optional decoration. Google's guidance on using generative AI content (updated 2025-12-10) sets concrete expectations for ecommerce:
+If you use AI to generate product imagery or copy, labeling it is a compliance requirement, not optional decoration. Google's guidance on using generative AI content (updated 2026-10-01) sets concrete expectations for ecommerce:
 
 - **AI-generated images** must include IPTC `DigitalSourceType` metadata with the value `TrainedAlgorithmicMedia`.
 - **AI-generated product data** (title, description, attributes) "must be specified separately and labeled as AI-generated" — this is relevant for Merchant Center feeds, not just on-page markup.
 
 The takeaway: the labeling is the requirement. Skipping it on AI-generated feed data or imagery is a policy problem, not a missed optimization.
+
+The same guide's human fact-check rule "also applies to metadata like `<title>` elements, meta description elements, structured data, and alternate texts for images, which can appear in Search results," so fact-check generated JSON-LD too.
 
 ## Validation
 

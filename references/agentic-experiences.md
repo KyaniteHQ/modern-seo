@@ -4,6 +4,8 @@ This is **Surface B** (see the two-surface model in [SKILL.md](../SKILL.md)): ma
 
 A rising surface in 2025–2026: AI agents that browse the web on a user's behalf — booking flights, comparing products, filling forms, completing checkouts. These agents read the DOM, the rendered page (often via vision models), and **the accessibility tree** — which Chrome's documentation calls *"their primary data model"* and *"the 'machine-eye view' of your page."*
 
+Google's own agent now runs on phones: Gemini in Chrome's auto browse reached US Android (AI Pro and Ultra, 2026-08-18) and India (2026-10-07), and Gemini Spark uses it in logged-in sessions, *"handing the task back to you"* for payments (2026-07-30; blog.google). Google says its models are *"trained to detect known threats, such as prompt injection"* and that auto browse asks *"for confirmation before completing some sensitive tasks"*; site owners get no new lever, so mobile flows must work for agents.
+
 You don't optimize for agents in a separate dimension from accessibility. You make your site clearer and more accessible, which serves humans and agents alike. As web.dev puts it: *"Everything we suggest to make a site 'agent-ready' also makes sites better for humans."*
 
 For the emerging *standards* (WebMCP, UCP) see [agentic-web-standards.md](agentic-web-standards.md). This file covers the UX/structure fundamentals and how they're measured.
@@ -54,7 +56,7 @@ These are the same patterns that win accessibility audits, plus a few agent-spec
 
 Chrome ships a Lighthouse **"Agentic Browsing" category** for this. It moved from experimental into Lighthouse's **default config in Lighthouse 13.3.0** (2026-05-07; primary: github.com/GoogleChrome/lighthouse/releases/tag/v13.3.0). The current release, **13.5.0** (2026-09-18), has **seven audits** and is slated for Chrome 156 DevTools (primary: github.com/GoogleChrome/lighthouse/releases/tag/v13.5.0); PageSpeed Insights began serving the category around 2026-06-23 (Lighthouse PR #17090). Lighthouse itself labels the category *"still under development and subject to change,"* and Chrome's scoring doc notes that *"Testing this category requires Chrome 150 or later, and WebMCP audits require registering for the WebMCP origin trial"* (updated 2026-05-05). Two things to set expectations:
 
-- **It is not a 0–100 score.** Per Chrome: *"the standards for the agentic web are still emerging, the current focus is to gather data and provide actionable signals rather than a definitive ranking."* You get a **pass-ratio** (how many readiness checks pass), pass/fail statuses, and informational counts.
+- **It is not a 0–100 score.** Per Chrome: *"the standards for the agentic web are still emerging, the current focus is to gather data and provide actionable signals rather than a definitive ranking."* Chrome's launch post calls the category *"informational and unbenchmarked"* (developer.chrome.com/blog/agent-ready-toolkit, 2026-06-22). You get a **pass-ratio** (how many readiness checks pass), pass/fail statuses, and informational counts.
 - **Audits are deterministic but results can vary**, because dynamic JS tool registration timing, accessibility-tree size/complexity, and layout shift (CLS) all affect what the snapshot captures.
 
 The category has **seven audits**. Lighthouse's config sorts six of them into three groups and lists CLS on its own (primary: `core/config/default-config.js` at tag v13.5.0). Chrome's scoring doc (updated 2026-05-05) still uses older group names and does not mention ARD or the 40-tool warning, so the release is the source for this list.
@@ -85,6 +87,7 @@ For any non-destructive flow you care about (contact form, quote request, checko
 4. Refresh mid-flow. Does the URL preserve enough state to resume?
 5. Submit the form. Does the success/error message appear as DOM content? Does each field have a `<label for>`, the correct `type`, and an `autocomplete` token (WCAG 1.3.5 + autofill)?
 6. (Optional, forward-looking) Run the Lighthouse agentic-browsing category and review the pass-ratio, any schema-validity failures, and the 40-tool warning if you register many WebMCP tools.
+7. (Optional, local) Test as an agent would with Chrome DevTools for agents (`chrome-devtools-mcp`). Its `lighthouse_audit` tool runs Lighthouse, including agentic browsing, on the open page. On a Chrome with WebMCP enabled, the `--categoryExperimentalWebmcp` flag adds `list_webmcp_tools` and `execute_webmcp_tool`, so your coding agent can call your tools (github.com/ChromeDevTools/chrome-devtools-mcp docs, 2026-10; developer.chrome.com/blog/agent-ready-toolkit, 2026-06-22).
 
 If steps 2–5 pass, the page is in good shape for current-generation agents.
 

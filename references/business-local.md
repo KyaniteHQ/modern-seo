@@ -15,6 +15,8 @@ If you sell physical products, get a Merchant Center feed set up before optimizi
 
 **Why this matters for AI search:** Google's AI features pull product data, prices, and availability from Merchant Center when responding to shopping-related queries. Pages alone aren't enough — the structured product data feeds the AI surfaces.
 
+**Optional attributes for conversational surfaces.** Merchant Center documents `question_and_answer`, `document_link` (product PDFs), `related_product`, and `popularity_rank` as *"primarily intended for use in conversational experiences such as AI mode in Google Search"* (support.google.com/merchants/answer/17085211 and related pages, current as of 2026-10). Product videos sent through `video_link` *"appear across various Google surfaces, including AI Mode, free Search listings, and Google Ads campaigns"* (answer/18545837), and `loyalty_program` carries member prices, points, and shipping (answer/12922446). Google's 2026-09-16 holiday post promotes these levers; the help pages state no performance figures, so don't quote lift numbers.
+
 **Common platform integrations:**
 
 - Shopify: built-in Google channel app.
@@ -54,6 +56,10 @@ For any business with a physical location or a defined service area, Business Pr
 
 **Trade-off (preferred-sources doc, updated 2026-09-18):** to be eligible as a preferred source in AI Mode and AI Overviews, *"you must make sure your site is included in Search generative AI features in Search Console"* — so excluding the site with the Search generative AI control also gives up the preferred-source highlight there (the doc ties this requirement only to those two features). Only domain- and subdomain-level sites qualify, not subdirectories. To prompt readers, Google offers a two-line JavaScript button (`publisher.js` plus `<div google-add-preferred-source-btn>`), a manual/ES-module mode for custom UI, or a plain deeplink (`https://www.google.com/preferences/source?q=example.com`); none of these is *"required … in order to appear as a preferred source"* (developers.google.com/search/docs/appearance/preferred-sources).
 
+On 2026-10-15 Google said Preferred Sources users have *"grown by more than 7x since the start of the year"* and that timely-article carousels in AI features, which highlight them, are expanding to more locations and languages (blog.google).
+
+**Search profiles:** a verified hub at `profile.google.com/@handle` for a creator's or publisher's content (developers.google.com/search/docs/appearance/search-profiles, updated 2026-09-16). Creating one *"doesn't directly affect your content's ranking"*; followers *"may see more of your content on Discover"* (support.google.com/websearch/answer/16904498, current as of 2026-10; Canada, India, US; 10,000 followers on one platform). AI Mode is testing links to these profiles from creator names (blog.google, 2026-10-15).
+
 ## Business Agent (emerging)
 
 Business Agent is a *"conversational experience on Google Search that allows shoppers to chat with your brand."* It is a **retail** feature attached to your **brand profile** and fed by **Merchant Center** — not by Google Business Profile (support.google.com/googleshopping/answer/16410382, undated; current as of 2026-10). Gemini models answer product questions from your Merchant Center data and your website when people search for your brand; it is rolling out in the US first.
@@ -68,7 +74,7 @@ These conversational surfaces are one face of a broader shift: agents increasing
 
 ## Agentic checkout: UCP and ACP
 
-UCP (Universal Commerce Protocol) is an open standard launched 2026-01-11, co-developed by Google and Shopify, with Etsy, Wayfair, Target, and Walmart as additional launch contributors. On Google it powers a **"Buy" checkout directly on AI Mode in Search and in Gemini** (web and mobile app), where you stay the seller of record, and a **cart-transfer** path that sends a Google-built cart to your own site (developers.google.com/merchant/ucp/faq, updated 2026-10-16). Google's separately named "agentic checkout" feature, where an agent buys on your own website, is a different thing. Google's AI optimization guide names UCP as the standard for agentic commerce. Only products flagged with the Merchant Center attribute `native_commerce(checkout_eligibility)` show the "Buy" button, and the program covers products eligible in the US, Canada, and Australia (support.google.com/merchants/answer/16837055, undated; current as of 2026-10). The newest spec is **v2026-08-25**, but **Google's merchant docs still require UCP `2026-04-08`** (developers.google.com/merchant/ucp/guides/overview/cart-overview, updated 2026-10-16). Google states that opting in *"does not influence how we rank your offers in product listings."* UCP lets AI agents discover products, negotiate, check out, and pay without a bespoke per-merchant integration.
+UCP (Universal Commerce Protocol) is an open standard launched 2026-01-11, co-developed by Google and Shopify, with Etsy, Wayfair, Target, and Walmart as additional launch contributors. On Google it powers a **"Buy" checkout directly on AI Mode in Search and in Gemini** (web and mobile app), where you stay the seller of record, and a **cart-transfer** path that sends a Google-built cart to your own site (developers.google.com/merchant/ucp/faq, updated 2026-10-16). Google's separately named "agentic checkout" feature, where an agent buys on your own website, is a different thing. Google's AI optimization guide (updated 2026-07-10) mentions UCP once, as one emerging protocol: *"Protocols like Universal Commerce Protocol (UCP) are emerging that will allow Search agents to do more."* Only products flagged with the Merchant Center attribute `native_commerce(checkout_eligibility)` show the "Buy" button, and the program covers products eligible in the US, Canada, and Australia (support.google.com/merchants/answer/16837055, undated; current as of 2026-10). The newest spec is **v2026-08-25**, but **Google's merchant docs still require UCP `2026-04-08`** (developers.google.com/merchant/ucp/guides/overview/cart-overview, updated 2026-10-16). Google states that opting in *"does not influence how we rank your offers in product listings."* UCP lets AI agents discover products, negotiate, check out, and pay without a bespoke per-merchant integration.
 
 The concrete hooks, without over-detailing:
 
@@ -82,6 +88,10 @@ The concrete hooks, without over-detailing:
 
 **Practical stance: watch, don't build.** For most merchants this is not something to hand-roll against a still-changing spec. If you're on a platform like Shopify, UCP support will most likely arrive through the platform. The durable action today is to keep a clean, agent-operable normal web checkout — that's the `continue_url` fallback every agent flow falls back to anyway. See [agentic-experiences.md](agentic-experiences.md) and [agentic-web-standards.md](agentic-web-standards.md).
 
+**UCP traffic in your logs.** Google's UCP FAQ, the only Google page that lists these strings (developers.google.com/merchant/ucp/faq, updated 2026-10-16), says Google's UCP requests carry a `UCP-Agent` header and a `User-Agent` that *"begins with Google/UCP"*; health checks send `Google-UCP-Prober/1.0`. Other UCP platforms send `UCP-Agent` too, because it is part of the open spec. Verify Google with mTLS against its UCP root certificate authorities or with reverse DNS, not the strings. Don't geo-block: Google says it can't guarantee which country requests come from.
+
+**Other ways AI Mode transacts.** Google announced hotel booking in AI Mode on 2026-08-27 (US, English). Users pick "Continue on Google" and pay with Google Pay; Google says *"it'll appear next to any of our integrated partners"* (Booking.com, Choice, Expedia, Hilton, Hotels.com, IHG, Marriott, Priceline, Trip.com, Wyndham), and the hotel or booking platform stays merchant of record. The post doesn't mention UCP. Connected apps in AI Mode (2026-07-16, US) add another partner route, such as checking out in Instacart's app. Everyone else's lever is still a booking or checkout flow that works on their own site.
+
 This is emerging, not a current ranking or visibility requirement. Treat it as something to track, not a deadline.
 
 ## Reviews
@@ -91,7 +101,7 @@ Reviews are signals across all of these surfaces. The mechanics that matter:
 - **Quantity over time** (a steady drip beats a sudden burst, which can look manipulative).
 - **Response rate** (respond to most reviews, especially negative ones — calm, specific, helpful).
 - **First-party reviews** on Business Profile, not just on third-party sites.
-- **Don't incentivize positive reviews** in violation of Google's policies. Asking customers to leave honest feedback is fine; offering discounts in exchange is not.
+- **Don't incentivize positive reviews** in violation of Google's policies. Asking customers for honest feedback is fine; Google Maps prohibits offering "payment, discounts, free goods and/or services" for any review. On your own pages, the review-snippet guidelines (added 2026-07-24) add: "Don't include fake or undisclosed incentivized reviews on your page or in your structured data markup."
 
 ## Website ↔ business surface consistency
 

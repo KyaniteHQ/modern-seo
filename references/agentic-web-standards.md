@@ -2,7 +2,7 @@
 
 This is **Surface B** (see [the two-surface model in SKILL.md](../SKILL.md)): being *usable by AI agents that act on your site*, as opposed to being *found by Google's ranking systems*. None of this affects Google Search ranking. It is a separate, emerging discipline with its own standards.
 
-The standards below are **proposed/experimental** as of this skill's last review (2026-06). The guidance is: understand them, adopt the low-risk progressive-enhancement pieces for flows you care about, and don't build brittle bespoke integrations against specs that are still changing.
+The standards below are **proposed/experimental** as of this skill's last review (2026-10). The guidance is: understand them, adopt the low-risk progressive-enhancement pieces for flows you care about, and don't build brittle bespoke integrations against specs that are still changing.
 
 ## WebMCP — exposing your page's tools to agents
 
@@ -19,6 +19,8 @@ WebMCP supports three things:
 **Status:** Developed openly (`webmachinelearning/webmcp`), under active discussion and subject to change. Chrome's origin trial runs **Chrome 149–162**; it was extended from 156 through an Intent to Extend Experiment approved on 2026-09-28 (chromestatus.com/feature/5117755740913664). **No ship milestone is set and no Intent to Ship has been filed.** On 2026-09-29 the Chrome team wrote that it is "hoping to move to I2S [Intent to Ship] within the extension window" (blink-dev, "Intent to Extend Experiment: WebMCP"). Chrome 162 reaches Stable on 2027-02-02; Chrome now ships a Stable milestone every two weeks from Chrome 153, so read milestone numbers against chromiumdash.appspot.com rather than counting four-week cycles. Testing flag `chrome://flags/#enable-webmcp-testing`. Gated by the `tools` Permissions Policy: it defaults to `self`, cross-origin iframes need `allow="tools"`, and a `Permissions-Policy: tools=()` header turns WebMCP off for a page and its frames (developer.chrome.com/docs/ai/webmcp, updated 2026-10-07).
 
 **Limits Chrome states** (developer.chrome.com/docs/ai/webmcp, updated 2026-10-07): the API is "primarily designed for local browser workflows with a human in the loop" (headless use "may be possible"), and "Clients and browsers must visit a site directly to know if it has callable tools." WebMCP does not advertise your tools to an agent that has not loaded the page.
+
+**Who calls these tools** (current as of 2026-10). Besides Chrome: Microsoft lists a WebMCP origin trial in its Edge 150 release notes (learn.microsoft.com/en-us/microsoft-edge/web-platform/release-notes/150). The ChatGPT desktop app uses WebMCP for "site tools" in its built-in browser, but only imperative tools in the top-level page: *"Tools defined through HTML form attributes aren't available as site tools"* (learn.chatgpt.com/docs/webmcp). Meta's Ray-Ban Display glasses call tools in web apps, *"off by default and enabled per device"* (wearables.developer.meta.com/docs/develop/webapps/agent-tools/, updated 2026-10-12). Brave's support in Leo is experimental and flag-gated; Firefox and Safari have only standards-position threads (spec repo implementation-status.md, added 2026-08-12). Gemini in Chrome is not listed, and Chrome says its WebMCP test extensions "are separate from Gemini in Chrome."
 
 ### Declarative API (annotate HTML forms) — Chrome trial only
 
@@ -52,40 +54,53 @@ For interactions that aren't a simple form submit:
 **Use `document.modelContext`.** `navigator.modelContext` was deprecated in Chrome 150 and removed in Chrome 152 (github.com/GoogleChrome/lighthouse/pull/17129, merged 2026-07-16). Chrome's Imperative API page documents only `document.modelContext` (developer.chrome.com/docs/ai/webmcp/imperative-api, updated 2026-10-16).
 
 ```js
-document.modelContext.registerTool({
-  name: 'toggle_layer',
-  description:
-    'Control pizza layers (sauce, cheese). Use "add", "remove", or "toggle".',
+const controller = new AbortController(); // controller.abort() later unregisters the tool
+
+await document.modelContext.registerTool({
+  name: 'book_flight',
+  description: 'Book a flight for the user with confirmed flight details.',
   inputSchema: {
     type: 'object',
     properties: {
-      layer: { type: 'string', enum: ['sauce-layer', 'cheese-layer'] },
-      action: { type: 'string', enum: ['add', 'remove', 'toggle'] },
+      flightId: { type: 'string', description: 'ID of the flight to book' },
+      passengers: { type: 'number', description: 'Number of tickets to purchase' },
     },
-    required: ['layer'],
-  },
-  execute: async ({ layer, action }) => {
-    await toggleLayer(layer, action);
-    return `Performed ${action || 'toggle'} on layer: ${layer}`;
+    required: ['flightId', 'passengers'],
   },
   annotations: {
-    readOnlyHint: false,
-    untrustedContentHint: false,
+    readOnlyHint: false,         // it changes state
+    consequentialHint: true,     // real-world purchase: lets the agent or browser confirm with the user first
+    untrustedContentHint: false, // output is written by the site (set true for UGC, reviews, external data)
+    debugging: false,            // an end-user tool, not a developer-only one (Chrome 156+)
   },
-});
+  execute: async ({ flightId, passengers }, { signal }) => {
+    const res = await fetch('/api/bookings', {
+      method: 'POST',
+      body: JSON.stringify({ flightId, passengers }),
+      signal, // aborted if the user or agent cancels
+    });
+    if (!res.ok) return `Flight ${flightId} is no longer available. Search for flights again.`;
+    return `Booked ${passengers} passenger(s) on flight ${flightId}.`;
+  },
+}, { signal: controller.signal });
 ```
 
-- `inputSchema` is JSON Schema (`type` / `properties` / `required`).
-- `execute` is async and returns a **string** result.
-- Options (second arg): `signal` (an `AbortSignal` to unregister the tool) and `exposedTo` (array of origins allowed to call it).
-- Related surface: `document.modelContext.getTools()`, `executeTool(tool, jsonString, { signal })`, and a `toolchange` event.
+- `inputSchema` is JSON Schema (`type` / `properties` / `required`). Optional `title` labels the tool in browser UI; agents read `description`.
+- `registerTool()` returns a promise. Options: `signal` (abort it to unregister the tool) and `exposedTo` (secure origins allowed to call it; the default is same-origin only).
+- `execute(input, { signal })`: stop work when `signal` aborts (pass it to `fetch()`), and return a string or any JSON-serializable value (spec PR #247). Since Chrome 153, unregistering a tool no longer cancels executions already running (spec PR #248).
+- Caller side (in-page agents): `getTools()` lists tools alphabetically, with cross-origin tools only if requested via `fromOrigins` and exposed by their owner. `executeTool(tool, inputObject, { signal })` takes a plain object; Chrome marks JSON-string input deprecated from Chrome 155. `toolchange` fires when the list changes (spec PRs #223, #246).
+- Experimental framework helpers: React `use-webmcp-tool`, Angular, Vue `@vueuse/core` `useWebMCP`, and `webmcp-types` typings.
 
-**Security annotation worth knowing:** `untrustedContentHint: true` marks a tool's output as untrusted to the agent — use it when the result includes user-generated content (e.g. a to-do item's text) so the agent doesn't treat that text as instructions. `readOnlyHint: true` signals the tool doesn't mutate state.
+(developer.chrome.com/docs/ai/webmcp/imperative-api, updated 2026-10-16)
+
+**Security and sizing** (developer.chrome.com/docs/ai/webmcp/secure-tools, updated 2026-09-01; spec PRs #217, #253). The four annotations default to `false`. Set `untrustedContentHint` when output includes user-generated or external content, so the agent treats it as data rather than instructions. Set `readOnlyHint` on tools that change nothing, and `consequentialHint` on high-stakes or irreversible actions, *"so the agent or browser can request user confirmation before execution."* `debugging: true` (Chrome 156+) marks developer-only tools that end-user agents can filter out. Hints are not enforcement: OpenAI says a tool's *"claim that it only reads data isn't proof of what it does"* (learn.chatgpt.com/docs/webmcp), so keep your own server-side checks. Chrome's character budgets are 500 per tool description, 150 per parameter description, 30 per tool or parameter name, and 1.5K per tool output, with *"some variation across agents."* Lighthouse warns above 40 tools; see [agentic-experiences.md](agentic-experiences.md).
 
 ### When to adopt WebMCP
 
 - **Now, low-risk:** pick a few high-value, non-destructive flows (search/filter, quote request, signup) and register them with the imperative API — the only form in the spec draft. Declarative form annotations are faster to add and work in Chrome's trial, but they may not survive standardization, so keep them additive.
 - **Beyond forms** (configurators, multi-step flows): the imperative API is the only option.
+- **Plan tools from user journeys, not forms.** Chrome's guide: define the user goal and starting state, role-play the conversation to find each tool, let the agent ask for missing parameters, return specific, recoverable errors ("Search for flights first"), then add evals and telemetry (developer.chrome.com/docs/ai/webmcp/build-tools, 2026-08-26).
+- **Keep each tool within one page.** A tool call that navigates ends without returning output to the agent. A continuations explainer (spec repo, 2026-10-02) proposes cross-page tools such as multi-page checkout; it is only a proposal.
 - **Don't** rebuild your whole UI around it or block the origin trial's stability on a production-critical path.
 
 ## Universal Commerce Protocol (UCP) — agentic commerce
@@ -93,6 +108,8 @@ document.modelContext.registerTool({
 UCP is the **commerce-specific** layer that sits above general agent↔web interaction. It lets an AI agent discover products, negotiate capabilities, run checkout, and pay — without a bespoke per-merchant integration.
 
 **Governance / reach:** an open standard co-developed by **Google and Shopify** (with Etsy, Wayfair, Target, and Walmart as launch co-contributors), launched 2026-01-11 (ucp.dev). On Google it powers **checkout directly on AI Mode in Search and in Gemini (web and mobile app)**, with the merchant as seller of record, plus a **cart-transfer** path that hands a Google-built cart to the merchant's own site; Google's FAQ states that native integration *"does not influence how we rank your offers in product listings"* (developers.google.com/merchant/ucp/faq, updated 2026-10-16). Note that Google's help center uses the name "agentic checkout" for a *different* feature, where an agent buys on the merchant's own website (support.google.com/merchants/answer/16837055). **Latest spec: v2026-08-25** (the first release since v2026-04-08): payment extensions moved from `dev.ucp.shopping.*` to `dev.ucp.common.payment.*`, vendor-agnostic 3DS2 via a new `actions[]` primitive, payment schedules and split payments, independent capability versioning, Web Bot Auth interop, and breaking changes to the fulfillment schema, buyer consent, and profile keys (`signing_keys[]` removed; `keys[]` is canonical) (github.com/Universal-Commerce-Protocol/ucp/releases/tag/v2026-08-25). v2026-04-08 had added the Cart capability (`dev.ucp.shopping.cart`, which Google's consumer "Universal Cart" is built on), Catalog search/lookup, and Identity Linking. **Google's merchant implementation still targets `2026-04-08`** (*"Ensure your system is set up to handle UCP version 2026-04-08"*, developers.google.com/merchant/ucp/guides/overview/cart-overview, updated 2026-10-16) — build against the version Google's docs name, not the newest tag. Still emerging.
+
+**Beyond retail (watch; nothing to implement yet):** UCP formed a Food Technical Council (2026-07-16: Block (Square), DoorDash, Google, Toast, Uber Eats), a Lodging Technical Council (2026-08-11: Amadeus, Booking.com, Expedia, Google, Hilton, Marriott, Trip.com), and a Payments Technical Council (2026-09-02: Adyen, Ant International, Coinbase, Global Payments, Google, PayPal, Shopify, Stripe) (ucp.dev/documentation/announcements/). The Lodging council's **Booking capability (`dev.ucp.lodging.booking`)**, announced 2026-09-25, is UCP's first vertical outside shopping. It is draft only, absent from the `latest` release, and the spec warns it *"may undergo breaking changes"* (ucp.dev/draft/specification/lodging/booking/). No Food spec exists yet. Google's UCP pages for hotels (developers.google.com/hotels/ucp) and food ordering (developers.google.com/actions-center/verticals/ordering/ucp) are waitlists that promise *"Detailed onboarding and specs coming soon"* (current as of 2026-10).
 
 Key concepts (useful vocabulary even before you implement):
 
@@ -107,15 +124,17 @@ Key concepts (useful vocabulary even before you implement):
 
 ### When to adopt UCP
 
-- **Watch, don't build** unless you're an ecommerce platform or large merchant in the Google/Shopify ecosystem and tracking the spec deliberately.
-- **Do** keep a clean, agent-operable web checkout (the `continue_url` fallback target). A site whose normal checkout works for an agent is the site that benefits first when these standards mature.
-- **Monitor** the spec at `ucp.dev` and Merchant Center help for rollout in your category/region.
+- **Watch, don't hand-roll the full protocol** unless you're an ecommerce platform or a large merchant tracking the spec deliberately. Platform merchants should ask their platform about its UCP plans, as Google's onboarding help advises (support.google.com/merchants/answer/16992327, current as of 2026-10).
+- **Custom stack? Cart transfer is the supported low-effort entry.** One `CreateCart` endpoint receives a cart the shopper built on Google and *"must respond with a continue_url directing the user to their pre-populated cart on your site"*; native checkout, payment handlers, and order lifecycle are not required (developers.google.com/merchant/ucp/implementation/2026-04-08/cart-api, updated 2026-10-09; cart-overview, updated 2026-10-16). Merchant Center's UCP integration hub (a pilot, with a sandbox) calls it a fast track that *"doesn't require full product feed setup, product warnings, or customer support information"*; native checkout adds order-status webhooks and a UCP Program Addendum (developers.google.com/merchant/ucp/guides/tools/merchant-center/integration, updated 2026-10-15). Both need Google's approval. The hub is rolling out in the US, with Australia and Canada next year.
+- **Why it matters:** Universal Cart, which Google announced on 2026-10-15 for Search (including AI Mode) and the Gemini app in the US, lets shoppers pay with Google Pay or *"transfer your items directly to the merchant's cart"*; the merchant stays seller of record (blog.google/products-and-platforms/products/shopping/universal-cart-launch/).
+- **Do** keep a clean, agent-operable web checkout. The `continue_url` fallback and a transferred cart both land there.
+- **Monitor** `ucp.dev` and Merchant Center help for rollout in your category and region.
 
 ## Agentic Commerce Protocol (ACP)
 
 ACP is a full-stack agentic-commerce protocol co-created by **Stripe and OpenAI**, launched 2025-09-29. It covers product-discovery feeds and transactional flows for the ChatGPT ecosystem; OpenAI's earlier native "Instant Checkout" surface was deprecated and repositioned — transactional integration now happens via ChatGPT apps. Shopify merchants and Stripe merchants get coverage through their platforms without bespoke integration.
 
-ACP and UCP address overlapping ground (agentic discovery + checkout) from different ecosystem entry points (OpenAI/Stripe vs. Google/Shopify). They are architecturally comparable but not interchangeable; expect eventual convergence pressure as the ecosystem matures.
+ACP and UCP address overlapping ground (agentic discovery + checkout) from different ecosystem entry points (OpenAI/Stripe vs. Google/Shopify). They are architecturally comparable but not interchangeable; expect eventual convergence pressure as the ecosystem matures. Stripe, ACP's co-creator, has also sat on UCP's Governing Council since 2026-04-28 and on its Payments Technical Council since 2026-09-02 (ucp.dev/documentation/announcements/).
 
 **Merchant readiness (Stripe).** A Stripe merchant becomes ACP-eligible through Stripe's **Agentic Commerce Suite** — upload a product-catalog feed (the `ProductCatalogImport` API or a Dashboard CSV), configure agents and policies in the Dashboard, and Stripe hosts the ACP-compliant checkout endpoint; payments settle through Checkout Sessions with **Shared Payment Tokens** (charged via PaymentIntents). It is **not** "Payment Links / predefined Price objects" — those are unrelated primitives, a common misconception. ACP itself is PSP-agnostic — you can implement the open spec and use Stripe only for the payment layer. To appear specifically in **ChatGPT Instant Checkout**, a merchant applies to OpenAI; **Shopify and Etsy merchants are pre-approved** via platform agreements.
 

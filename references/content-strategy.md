@@ -38,7 +38,7 @@ Google evaluates content quality through **E-E-A-T**: Experience, Expertise, Aut
 
 E-E-A-T isn't a dial you turn directly: "While E-E-A-T itself isn't a specific ranking factor, using a mix of factors that can identify content with good E-E-A-T is useful." Google's own self-assessment framing is **Who, How, and Why**:
 
-- **Who** made it — add bylines and author information "where readers might expect it." Anonymous content on topics that need expertise reads as less trustworthy.
+- **Who** made it — add bylines and author information "where readers might expect it." Anonymous content on topics that need expertise reads as less trustworthy. Never invent authors. Fabricated creator profiles, such as "AI-generated headshots, made-up names, or false credentials," are "a form of deception" in Google's words (see Myth 12 in [mythbusting.md](mythbusting.md)).
 - **How** it was made — disclose automation or AI generation where that disclosure would help readers understand the content.
 - **Why** it exists — "'Why' is perhaps the most important question." Content should be made "primarily to help people," not primarily to manipulate search rankings. This is the people-first test.
 
@@ -52,6 +52,8 @@ Two myths worth killing:
 - **Date-churning doesn't create freshness.** Changing the published date or making cosmetic edits to seem "fresh" doesn't help. Update content when there's a real reason to.
 
 Note on quality raters: their judgments don't feed ranking directly. "Rater data is not used directly in our ranking algorithms" — raters measure whether algorithm changes are working, they don't score your individual pages.
+
+**Main content and what raters judge** (same page, updated 2026-10-05). Main content is "any part of the web page that directly helps the page achieve its purpose," including tools, user contributions, tabbed sections, and headings. Raters judge it on **Effort**, **Originality** ("unique, original information or perspectives that aren't already available on other websites"), **Talent or skill**, and **Accuracy** (YMYL content must be "highly accurate and consistent with established expert consensus"). On effort: "using generative AI to produce large amounts of text without manual oversight or curation represents little to no effort," and "Attribution or giving credit to other sources doesn't replace the need for original effort."
 
 ## Freshness as a quality signal
 
@@ -102,6 +104,8 @@ The healthier approach:
 
 A useful heuristic: only spin up a new page if it has a substantively different answer, not just a different keyword.
 
+**Recent enforcement dates** (Search Status Dashboard): spam updates ran 2026-06-24 to 06-26, 08-18 to 08-21, and 09-24 to 10-08; the last core update was May 2026 (05-21 to 06-02). Google gave no targeting details beyond "applies globally and to all languages," so don't infer a target.
+
 ## Using AI to generate content (the rules)
 
 AI-generated content is **not banned**. Google's position ("using-gen-ai-content" + spam policies, updated 2026-10-01 / 2026-08-28) is that AI content must meet the same Search Essentials and spam policies as anything else. The line is value, not authorship:
@@ -110,12 +114,29 @@ AI-generated content is **not banned**. Google's position ("using-gen-ai-content
 
 So the failure mode isn't "used AI" — it's mass-producing thin pages. Disclosure is encouraged where readers would expect it (see the **How** question under E-E-A-T).
 
+Accuracy is the second failure mode: "generative models don't retrieve facts, but predict a likely sequence of words." Google says "It is critical to manually factcheck and review all AI-generated content for accuracy and trustworthiness before publishing," including `<title>` elements, meta descriptions, structured data, and image alt text.
+
 Ecommerce carries concrete labeling requirements that are easy to miss:
 
 - **AI-generated images** must carry IPTC `DigitalSourceType` metadata set to `TrainedAlgorithmicMedia`.
 - **AI-generated product data** (title, description) "must be specified separately and labeled as AI-generated."
 
 The takeaway: use AI as a tool behind genuinely helpful, people-first content — drafting, summarizing, restructuring real expertise — never to mass-produce thin pages at scale.
+
+## Site reputation policy
+
+Google's former "site reputation abuse" policy is now the **site reputation policy** (spam policies, updated 2026-08-28). It covers third-party content published on a host "mainly because of that host's already-established ranking signals." Third-party content alone is fine; wire services, syndicated news, forums, reader-facing advertorials, and appropriately treated affiliate links are not inconsistent with it.
+
+A human review asks whether the section is "fully integrated" with the host. Google lists four factors, none decisive alone:
+
+- Presentation consistent with the host's design and UX.
+- Quality in line with the main domain.
+- Stated or implied authorship and editorial responsibility.
+- Identical or near-identical copies on other sites.
+
+Google's examples: a curated, disclosed coupons section built with a partner (action unlikely); an unauthored CBD affiliate article copied from a marketplace (action likely outside the EEA); a freelancer's bylined cooking section under editorial oversight (action unlikely).
+
+Enforcement depends on **where the searcher is**. The review "applies globally," but manual actions affect only results shown outside the European Economic Area (EEA). Inside the EEA, the section may be ranked separately on its own merits, and that categorization "isn't used as a ranking signal." Past EEA manual actions are lifted. Eligible sites can take disputes to mediation after a reconsideration request. Google's blog dated the EEA change from 2026-08-30.
 
 ## Editing pass: catch commodity drift
 
